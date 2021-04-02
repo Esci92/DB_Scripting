@@ -7,7 +7,6 @@ function ConnectODBCData{
         [string]$ConectionString=$(throw "ConectionString is required."),
         [string]$SqlQuery=$(throw "SQL Comannd is required.")
     )
-    echo $ConectionString
 
     $ODBCconnector=New-Object System.Data.Odbc.OdbcConnection
     $ODBCconnector.ConnectionString= $ConectionString
@@ -43,4 +42,25 @@ function GetProstgresSQLData{
     $PostgreSQLConnection += "Pwd=" + $Password + ";"
 
     ConnectODBCData -ConectionString $PostgreSQLConnection -SqlQuery $SqlQuery
+}
+
+function GetMSSQLData{
+
+    param(  
+        $MSSQLIP=$(throw "IP or FQDN is required."), 
+        $MSSQLPort="1433", 
+        $Username=$(throw "Username is required."), 
+        $Password=$(throw "Password is required."), 
+        $Database=$(throw "Database is required."),
+        $SqlQuery = $(throw "SQL Comannd is required.")
+        )
+
+    $MSSQLConnection =  "Driver={SQL Server};"
+    $MSSQLConnection += "Server=" + $MSSQLIP + ";"
+    $MSSQLConnection += "Port=" + $MSSQLPort + ";"
+    $MSSQLConnection += "Database=" + $Database + ";"
+    $MSSQLConnection += "Uid=" + $Username + ";"
+    $MSSQLConnection += "Pwd=" + $Password + ";"
+
+    ConnectODBCData -ConectionString $MSSQLConnection -SqlQuery $SqlQuery
 }

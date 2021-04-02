@@ -1,10 +1,42 @@
 ﻿# 31.03.2021 - CE
+# 02.04.2021 - CE
 
-$sqlServerIP = "192.168.10.246"
-$sqlusername = "username"
-$sqlpassword = "password"
+#Variablen
+$sqlPostgreServerIP = "192.168.10.246"
+$sqlPostgreusername = "username"
+$sqlPostgrepassword = "password"
+$sqlMSServerIP      = "192.168.10.131"
+$sqlMSusername      = "username"
+$sqlMSpassword      = "password"
 
-Import-Module "C:\Users\Christian\Desktop\Sync\HF\DB2\DB\Powershell\SQLConnctors.psm1" -Verbose
+# Import der Module
+Import-Module "C:\Users\Christian\Documents\Git\DB_Scripting\SQLConnctors.psm1" -Verbose
+Import-Module "C:\Users\Christian\Documents\Git\DB_Scripting\HilfsFunktionen.psm1" -Verbose
 
-GetProstgresSQLData -PostgreIP $sqlServerIP -Username $sqlusername -Password $sqlpassword -Database "nv_alarm" -SqlQuery "SELECT * FROM public.alarm_data ORDER BY id ASC LIMIT 100"
+#Test 
+$test = GetProstgresSQLData -PostgreIP $sqlPostgreServerIP -Username $sqlPostgreusername -Password $sqlPostgrepassword -Database "nv_alarm" -SqlQuery "SELECT * FROM public.alarm_data ORDER BY id DESC LIMIT 100"
+$Test2 = GetMSSQLData -MSSQLIP $sqlMSServerIP -Username $sqlMSusername -Password $sqlMSpassword -Database "ABO" -SqlQuery "SELECT * FROM Mitglied"
+
+# Interesting
+$i = 1
+$test[$i].tstamp
+$test[$i].starttime
+$test[$i].endtime
+GetTimefromTimeStamp -TimeStamp $test[$i].tstamp
+$test[$i].week
+$test[$i].msg
+$test[$i].launchedby
+$test[$i].alrnumber
+$test[$i].alrname
+$test[$i].grpnumber
+$test[$i].grpname
+
+#
+#$i = 0
+#$test | foreach  {
+#    $a = $test[$i]
+#    $i += 1
+#}
+
+
 
