@@ -18,7 +18,8 @@ $test = GetProstgresSQLData -PostgreIP $sqlPostgreServerIP -Username $sqlPostgre
 $Test2 = GetMSSQLData -MSSQLIP $sqlMSServerIP -Username $sqlMSusername -Password $sqlMSpassword -Database "ABO" -SqlQuery "SELECT * FROM Mitglied"
 
 # Interesting
-$i = 1
+$i = 6
+
 $test[$i].tstamp
 $test[$i].starttime
 $test[$i].endtime
