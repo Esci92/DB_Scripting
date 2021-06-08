@@ -1,27 +1,53 @@
 ﻿# 31.03.2021 - CE
 #
 
+#/--------------------------------------------------------------------------------------/
+#/ Main Faile - PostgreSQL, CSV to MSSQL and Reporting                                  /
+#/ Semester Arbeit - Christian Escolano / Robert Mulder                                 /
+#/--------------------------------------------------------------------------------------/
+
+# PostgreSQL Variablen
 $sqlPostgreServerIP = "192.168.10.246"
 $sqlPostgreusername = "username"
 $sqlPostgrepassword = "password"
 
-$sqlMSServerIP = "192.168.7.156"
+# MSSQL Variablen
+$sqlMSServerIP = "192.168.10.144"
 $sqlMSusername = "username"
 $sqlMSpassword = "password"
 
-Import-Module "C:\Users\Christian\Desktop\Sync\HF\DB2\DB\Powershell\SQLConnctors.psm1" -Verbose
-Import-Module "C:\Users\Christian\Desktop\Sync\HF\DB2\DB\Powershell\PostgreSQLConnector.psm1" -Verbose
+$PfadModules = "C:\Users\Christian\Desktop\Sync\HF\DB2\DB\Powershell\"
+$pfadCSV = "C:\Users\Christian\Desktop\Sync\HF\DB2\DB\Exports\"
 
-$test = GetProstgresSQLData -PostgreIP $sqlPostgreServerIP -Username $sqlPostgreusername -Password $sqlPostgrepassword -Database "nv_alarm" -SqlQuery "SELECT * FROM public.alarm_data ORDER BY id ASC LIMIT 100"
+# Importieren der Module
+Import-Module ($PfadModules + "MSSQLConnctor.psm1") -Verbose
+Import-Module ($PfadModules + "MSSQLBusinessLogic.psm1") -Verbose
+Import-Module ($PfadModules + "PostgreSQLConnector.psm1") -Verbose
+Import-Module ($PfadModules + "CSVImport.psm1") -Verbose
 
-#
-#$i = 0
-#$test | foreach  {
-#    $a = $test[$i]
-#    $i += 1
-#}
-GetMSSQLData -MSSQLIP $sqlMSServerIP -Username $sqlMSusername -Password $sqlMSpassword -Database "Alarm" -SqlQuery "SET IDENTITY_INSERT AlarmStat off"
+# Zusammenbauen Verbindungs Strings 
+$MSSQLConnectionString = CreateMSSQLConnectionString -MSSQLIP $sqlMSServerIP -Username $sqlMSusername -Password $sqlMSpassword -Database "Alarm"
+$PostgresConnectionString = CreatePostgresConnectionString -PostgreIP $sqlPostgreServerIP -Username $sqlPostgreusername -Password $sqlPostgrepassword -Database "nv_alarm"
 
-GetMSSQLData -MSSQLIP $sqlMSServerIP -Username $sqlMSusername -Password $sqlMSpassword -Database "Alarm" -SqlQuery "SET IDENTITY_INSERT AlarmStat off; insert into AlarmStat(AlarmStatID,alrnumber) values(1,9867);"
+# einlesen der Daten Postgres
+$PostgresData = GetProstgrsSQLData -PostgreSQLConnection $PostgresConnectionString -SqlQuery "select * from public.alarm_data ORDER BY id DESC Limit 30000"
 
-GetMSSQLData -MSSQLIP $sqlMSServerIP -Username $sqlMSusername -Password $sqlMSpassword -Database "Alarm" -SqlQuery "SELECT * FROM AlarmStat"
+# einlesen der Daten CSV
+$CSVGrupen = GetImportFormatiertGruppen -Pfad ($pfadCSV + "groups_export-20210330.csv")
+$CSVPersonen = GetImportFormatiertPersonen -Pfad ($pfadCSV + "nvpers-20210330.csv")
+$CSVGrupenPersonen = GetImportFormatiertPersonenGruppen -Pfad ($pfadCSV + "nv_accountpers-group_20210330.csv") -GrupenListe $CSVGrupen
+
+# Schreiben aller MedienTyoen in die Datenbank 
+SetMSSQLMedium -MSSQLConnection $MSSQLConnectionString -$CSVPersonen
+
+# Schreiben aller Grupen in die Datenbank / Updaten der Namen
+SetMSSQLGrupen -MSSQLConnection $MSSQLConnectionString -CSVGrupen $CSVGrupen
+
+# Schreiben der Alarmstatistik in die Datenbank / Updaten der Namen
+SetMSSQLAlarmStat -MSSQLConnection $MSSQLConnectionString -PostgresData $PostgresData
+
+# Schreiben aller Personen in die Datenbank / Updaten der Namen
+SetMSSQLPersonen -MSSQLConnection $MSSQLConnectionString -CSVPersonen $CSVPersonen
+
+# Schreiben Personen Gruppen in die Datenbank
+SetMSSQLGrupenPersonen -MSSQLConnection $MSSQLConnectionString -CSVGrupenPersonen $CSVGrupenPersonen -CSVGrupen $CSVGrupen
