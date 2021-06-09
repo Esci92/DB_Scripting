@@ -41,9 +41,14 @@ function SetMSSQLPersonen {
         $CSVPersonen = $(throw "No list submited")
     )
 
-    foreach ($pers in $CSVPersonen[11] ){
-        SetMSSQLData -MSSQLConnection $MSSQLConnectionString -SqlQuery ("exec uspBenutzerUpdateInsert @Vorname = '"+ $pers.Vorname  + "',@Nachname = '" + $pers.Nachname + "',@Kontakt = '" + $pers.Number + "',@Medium = '" + $pers.Medium + "'") 
-    sleep 1
+    foreach ($pers in $CSVPersonen ){
+        try {
+            SetMSSQLData -MSSQLConnection $MSSQLConnectionString -SqlQuery ("exec uspBenutzerUpdateInsert @Vorname = '"+ $pers.Vorname  + "',@Nachname = '" + $pers.Nachname + "',@Kontakt = '" + $pers.Number + "',@Medium = '" + $pers.Medium + "'") 
+        }
+        
+        catch {
+            "exec uspBenutzerUpdateInsert @Vorname = '"+ $pers.Vorname  + "',@Nachname = '" + $pers.Nachname + "',@Kontakt = '" + $pers.Number + "',@Medium = '" + $pers.Medium + "'"
+        }
     }
 }
 
@@ -67,7 +72,7 @@ function SetMSSQLAlarmStat {
             $SQLExec += ",@launchedby = '" + $PData.launchedby + "'"
             $SQLExec += ",@alrname = '" + $PData.alrname + "'"
             $SQLExec += ",@alrnumber = " + $PData.alrnumber
-            $SQLExec += ",@GruppenID = " + $PData.grpnumber
+            $SQLExec += ",@GruppeID = " + $PData.grpnumber
             
             SetMSSQLData -MSSQLConnection $MSSQLConnectionString -SqlQuery $SQLExec
     
@@ -87,7 +92,7 @@ function SetMSSQLGrupenPersonen {
 
         foreach ($Gr in $CSVGrupen.Gruppennummer){
             if ($Grpers.($Gr) -gt 0){
-            $a =    SetMSSQLData -MSSQLConnection $MSSQLConnectionString -SqlQuery ("uspBenutzerGruppeUpdateInsert @GNumber = " + $Gr + ", @Kontakt = '" + $Grpers.H8 + "', @Medium = '" + $Grpers.H9 + "'")
+            $a =    SetMSSQLData -MSSQLConnection $MSSQLConnectionString -SqlQuery ("uspBenutzerGruppeInsert @GNumber = " + $Gr + ", @Kontakt = '" + $Grpers.H8 + "', @Medium = '" + $Grpers.H9 + "'")
             if ($a -eq 1){
                 $i += 1
             }

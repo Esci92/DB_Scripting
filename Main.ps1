@@ -38,7 +38,7 @@ $CSVPersonen = GetImportFormatiertPersonen -Pfad ($pfadCSV + "nvpers-20210330.cs
 $CSVGrupenPersonen = GetImportFormatiertPersonenGruppen -Pfad ($pfadCSV + "nv_accountpers-group_20210330.csv") -GrupenListe $CSVGrupen
 
 # Schreiben aller MedienTyoen in die Datenbank 
-SetMSSQLMedium -MSSQLConnection $MSSQLConnectionString -$CSVPersonen
+SetMSSQLMedium -MSSQLConnection $MSSQLConnectionString -CSVPersonen $CSVPersonen
 
 # Schreiben aller Grupen in die Datenbank / Updaten der Namen
 SetMSSQLGrupen -MSSQLConnection $MSSQLConnectionString -CSVGrupen $CSVGrupen
