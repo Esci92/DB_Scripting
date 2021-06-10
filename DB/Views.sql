@@ -11,8 +11,9 @@ go
 -- Finden der meist ausgelösene gruppe
 CREATE view vMaxAusgelöseneGruppe 
 AS
-	select GruppeID,COUNT(*) anzahl from AlarmStat 
-	group by GruppeID
+	select GNumber,Gname,COUNT(*) anzahl from AlarmStat 
+	join Gruppe on Gruppe.GruppeID = AlarmStat.GruppeID
+	group by AlarmStat.GruppeID, Gname, GNumber
 	having COUNT(*) = 
 	(select max(a) from 
 	(select GruppeID, COUNT(*) a from AlarmStat group by GruppeID) aa)
@@ -21,8 +22,9 @@ go
 -- Finden der am wenigsten ausgelösene gruppe
 CREATE view vMinAusgelöseneGruppe 
 AS
-	select GruppeID,COUNT(*) anzahl from AlarmStat 
-	group by GruppeID
+	select GNumber,Gname,COUNT(*) anzahl from AlarmStat 
+	join Gruppe on Gruppe.GruppeID = AlarmStat.GruppeID
+	group by AlarmStat.GruppeID, Gname, GNumber
 	having COUNT(*) = 
 	(select min(a) from 
 	(select GruppeID, COUNT(*) a from AlarmStat group by GruppeID) aa)
@@ -148,6 +150,26 @@ go
 -- Finden von usern mit leeren Namen/Vornamen
 CREATE view vLeereNamen
 AS
-	select BenutzerID from Benutzer 
+	select BenutzerID,Vorname,Nachname from Benutzer 
 	where Vorname = '' or Nachname = ''
+go
+
+-- Finden des Alarms der am meisten Zeitverbraucht hat, bis er alarmiert hat.
+CREATE view vLangsamsterAlarm
+AS
+	select Distinct alrnumber, alrname, abs(tstamp - sstamp) sekunden from AlarmStat 
+	group by tstamp, alrnumber, alrname,sstamp
+	having (tstamp - sstamp) = 
+	(select max(a) from 
+	(select (tstamp - sstamp) a from AlarmStat) aa)
+go
+
+-- Finden des Alarms der am wenigsten Zeitverbraucht hat, bis er alarmiert hat.
+CREATE view vSchnellsterAlarm
+AS
+	select Distinct alrnumber, alrname, abs(tstamp - sstamp) sekunden from AlarmStat 
+	group by tstamp, alrnumber, alrname,sstamp
+	having (tstamp - sstamp) = 
+	(select min(a) from 
+	(select (tstamp - sstamp) a from AlarmStat) aa)
 go

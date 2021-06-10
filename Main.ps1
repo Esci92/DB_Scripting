@@ -2,7 +2,7 @@
 #
 
 #/--------------------------------------------------------------------------------------/
-#/ Main Faile - PostgreSQL, CSV to MSSQL and Reporting                                  /
+#/ Main File - PostgreSQL, CSV to MSSQL and Reporting                                  /
 #/ Semester Arbeit - Christian Escolano / Robert Mulder                                 /
 #/--------------------------------------------------------------------------------------/
 
@@ -18,6 +18,7 @@ $sqlMSpassword = "password"
 
 $PfadModules = "C:\Users\Christian\Desktop\Sync\HF\DB2\DB\Powershell\"
 $pfadCSV = "C:\Users\Christian\Desktop\Sync\HF\DB2\DB\Exports\"
+$pfadExportHTML = "C:\Users\Christian\Desktop\Sync\HF\DB2\DB\Export-HTML\"
 
 # Importieren der Module
 Import-Module ($PfadModules + "MSSQLConnctor.psm1") -Verbose
@@ -51,3 +52,6 @@ SetMSSQLPersonen -MSSQLConnection $MSSQLConnectionString -CSVPersonen $CSVPerson
 
 # Schreiben Personen Gruppen in die Datenbank
 SetMSSQLGrupenPersonen -MSSQLConnection $MSSQLConnectionString -CSVGrupenPersonen $CSVGrupenPersonen -CSVGrupen $CSVGrupen
+
+# Exportieren der BusinessCases auf HTML
+ExportAllToHTML -MSSQLConnection $MSSQLConnectionString -pfadExportHTML $pfadExportHTML
