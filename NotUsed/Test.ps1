@@ -118,14 +118,29 @@ $CSVPersonen.object | ConvertTo-Html -Title "test" -body '<h1 style="color:Black
 
 $exp = GetMSSQLData -MSSQLConnection $MSSQLConnectionString -SqlQuery "select * from vSchnellsterAlarm" | Select-Object -skip 1
 
-$tabelle2 | ConvertTo-Json
+$tabelle2=| ConvertTo-Json
 New-Object 
 $tabelle2 = $exp | Select-Object -skip 1
+$tabelle = $tabelle2
 
 $tabelle2.alrnumber
 $tabelle2.get-type
 
-$CSVPersonen.gettype()
-get-type - $tabelle2.gettype()
 
-$tabelle2 |  ConvertTo-Html -Title $Title -body ('<h1 style="color:Black;font-size:40px;">' + $Title +'</h1>') | Out-File ($pfadExportHTML+$Title + ".html")
+$a.gettype()
+
+$a = foreach ($el in $exp){
+    New-Object -f $el
+}
+
+$a = $tabelle2 | ConvertTo-CSV | ConvertFrom-Csv
+
+$tabelle2 | ConvertTo-CSV | ConvertFrom-Csv | ConvertTo-Html -Title $Title -body ('<h1 style="color:Black;font-size:40px;">' + $Title +'</h1>') | Out-File ($pfadExportHTML+$Title + ".html")
+
+
+$exp = GetMSSQLData -MSSQLConnection $MSSQLConnectionString -SqlQuery "select * from vSchnellsterAlarm"
+
+$OutTable = $exp | Select-Object -skip 1 
+$tabelleObject | ConvertTo-CSV  | ConvertFrom-Csv
+$tabelleout = $tabelleObject | ConvertTo-Html -Title $Title -body ('<h1 style="color:Black;font-size:40px;">' + $Title + '</h1>') 
+$tabelleout | Out-File -FilePath ($pfadExportHTML+$Title + ".html")

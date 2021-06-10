@@ -21,10 +21,12 @@ $pfadCSV = "C:\Users\Christian\Desktop\Sync\HF\DB2\DB\Exports\"
 $pfadExportHTML = "C:\Users\Christian\Desktop\Sync\HF\DB2\DB\Export-HTML\"
 
 # Importieren der Module
-Import-Module ($PfadModules + "MSSQLConnctor.psm1") -Verbose
-Import-Module ($PfadModules + "MSSQLBusinessLogic.psm1") -Verbose
-Import-Module ($PfadModules + "PostgreSQLConnector.psm1") -Verbose
 Import-Module ($PfadModules + "CSVImport.psm1") -Verbose
+Import-Module ($PfadModules + "FileExport.psm1") -Verbose
+Import-Module ($PfadModules + "MSSQLBusinessLogic.psm1") -Verbose
+Import-Module ($PfadModules + "MSSQLConnctor.psm1") -Verbose
+Import-Module ($PfadModules + "PostgreSQLConnector.psm1") -Verbose
+Import-Module ($PfadModules + "ViewsBusinessCases.psm1") -Verbose
 
 # Zusammenbauen Verbindungs Strings 
 $MSSQLConnectionString = CreateMSSQLConnectionString -MSSQLIP $sqlMSServerIP -Username $sqlMSusername -Password $sqlMSpassword -Database "Alarm"
