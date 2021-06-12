@@ -1,26 +1,34 @@
+#/--------------------------------------------------------------------------------------/
+#/ FileExport - PostgreSQL, CSV to MSSQL and Reporting                                  /
+#/ Semester Arbeit - Christian Escolano / Robert Mulder                                 /
+#/--------------------------------------------------------------------------------------/
+
+# Schreiben der Logs und Errormeldungen
 function WriteLog {
 
     param(  
-        $Output = $(throw "IP or FQDN is required."), 
-        $Error,
-        $errorfile,
-        $logfile
+        $Output = $(throw "Now output defined"), 
+        $errors = $false,
+        $Logsfile = $(throw "Now outputfile defined")
     )
     
-    ($Error -eq $false){
-        "Succes;" | Out-File -FilePath $errorfile -Append -NoNewline
-    } else {
-        
-        Success
-        "Error;" | Out-File -FilePath $errorfile -Append -NoNewline
+    if ($errors){
+
+        # Generieren Spalte 1
+        $Logsfile = ($Logspfad + "\ErrorLogs.csv")
+        "Error;" | Out-File -FilePath $Logsfile -Append -NoNewline
+    } 
+    else {
+
+        # Generieren Spalte 1
+        $Logsfile = ($Logspfad + "\Logs.csv") 
+        "Succes;" | Out-File -FilePath $Logsfile -Append -NoNewline
     }
 
-    "Error;" | Out-File -FilePath $errorfile -Append -NoNewline
-
-    ## Generieren 1 Zeilen Text
-    Get-Date | Out-File -FilePath $errorfile -Append -NoNewline
-    ";" | Out-File -FilePath $errorfile -Append -NoNewline
-    $Output | Out-File -FilePath $errorfile -Append
+    ## Generieren 1 Zeilen im CSV Format
+    Get-Date | Out-File -FilePath $Logsfile -Append -NoNewline
+    ";" | Out-File -FilePath $Logsfile -Append -NoNewline
+    $Output | Out-File -FilePath $Logsfile -Append
 }
 
 # Convert Tabele zu PsObject
@@ -36,6 +44,7 @@ function DataTableToPSObject {
     return $OutTable | ConvertTo-CSV  | ConvertFrom-Csv
 }
 
+# Exportieren der Tabellen in HTML Files
 function ExportTabelleToHTML {
 
     param(  

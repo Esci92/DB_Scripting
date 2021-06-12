@@ -7,10 +7,6 @@
 #/ Semester Arbeit - Christian Escolano / Robert Mulder                                 /
 #/--------------------------------------------------------------------------------------/
 
-# Erstellen MSSQL Verbindungs String
-
-Import-Module ($PfadModules + "Logs.psm1") -Verbose
-
 function SetMSSQLMedium {
 
     param(  
@@ -19,6 +15,8 @@ function SetMSSQLMedium {
     )
     
     foreach ($medium in ($CSVPersonen.Medium | Select-Object -Unique)){
+
+        # Abrufen der Gespeicherten Prozedur
         SetMSSQLData -MSSQLConnection $MSSQLConnectionString -SqlQuery ("exec uspMediumInsert '"+ $medium + "'")
     }
 }
@@ -31,9 +29,12 @@ function SetMSSQLGrupen {
     )
     
     foreach ($Grupen in $CSVGrupen){
+
+        # Abrufen der Gespeicherten Prozedur
         SetMSSQLData -MSSQLConnection $MSSQLConnectionString -SqlQuery ("exec uspGruppeUpdateInsert @GName = '" + $Grupen.Gruppenname + "', @GNumber = " + $Grupen.Gruppennummer) 
     }
 }
+
 function SetMSSQLPersonen {
 
     param(  
@@ -42,13 +43,9 @@ function SetMSSQLPersonen {
     )
 
     foreach ($pers in $CSVPersonen ){
-        try {
-            SetMSSQLData -MSSQLConnection $MSSQLConnectionString -SqlQuery ("exec uspBenutzerUpdateInsert @Vorname = '"+ $pers.Vorname  + "',@Nachname = '" + $pers.Nachname + "',@Kontakt = '" + $pers.Number + "',@Medium = '" + $pers.Medium + "'") 
-        }
-        
-        catch {
-            "exec uspBenutzerUpdateInsert @Vorname = '"+ $pers.Vorname  + "',@Nachname = '" + $pers.Nachname + "',@Kontakt = '" + $pers.Number + "',@Medium = '" + $pers.Medium + "'"
-        }
+            
+        # Senden der Daten zum SQL
+        SetMSSQLData -MSSQLConnection $MSSQLConnectionString -SqlQuery ("exec uspBenutzerUpdateInsert @Vorname = '"+ $pers.Vorname  + "',@Nachname = '" + $pers.Nachname + "',@Kontakt = '" + $pers.Number + "',@Medium = '" + $pers.Medium + "'")
     }
 }
 
@@ -65,6 +62,8 @@ function SetMSSQLAlarmStat {
             # Löschen von unrelevanten Systemdaten.
         }
         else{
+
+            # Zusammenbauen der Abfrage
             $SQLExec = "exec uspAlarmStatInsert "
             $SQLExec += "@tstamp = " + $PData.tstamp 
             $SQLExec += ",@sstamp = " + $PData.starttime
@@ -74,6 +73,7 @@ function SetMSSQLAlarmStat {
             $SQLExec += ",@alrnumber = " + $PData.alrnumber
             $SQLExec += ",@GruppeID = " + $PData.grpnumber
             
+            # Abrufen der Gespeicherten Prozedur        
             SetMSSQLData -MSSQLConnection $MSSQLConnectionString -SqlQuery $SQLExec
     
         }
@@ -91,14 +91,12 @@ function SetMSSQLGrupenPersonen {
     foreach ($Grpers in $CSVGrupenPersonen){
 
         foreach ($Gr in $CSVGrupen.Gruppennummer){
+
+            #Abfrage ob der User Teil der Gruppe ist
             if ($Grpers.($Gr) -gt 0){
-            $a =    SetMSSQLData -MSSQLConnection $MSSQLConnectionString -SqlQuery ("uspBenutzerGruppeInsert @GNumber = " + $Gr + ", @Kontakt = '" + $Grpers.H8 + "', @Medium = '" + $Grpers.H9 + "'")
-            if ($a -eq 1){
-                $i += 1
-            }
-            else {
-                write ("uspBenutzerGruppeUpdateInsert @GNumber = " + $Gr + ", @Kontakt = '" + $Grpers.H8 + "', @Medium = '" + $Grpers.H9 + "'")
-                }
+
+                # Abrufen der Gespeicherten Prozedur
+                SetMSSQLData -MSSQLConnection $MSSQLConnectionString -SqlQuery ("uspBenutzerGruppeInsert @GNumber = " + $Gr + ", @Kontakt = '" + $Grpers.H8 + "', @Medium = '" + $Grpers.H9 + "'")
             }
         }
     }

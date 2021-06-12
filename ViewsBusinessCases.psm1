@@ -6,51 +6,51 @@
 #/ Semester Arbeit - Christian Escolano / Robert Mulder                                 /
 #/--------------------------------------------------------------------------------------/
 
-# Finden der meist ausgelösene gruppe und exportieren in einem HTML
-function GetvMaxAusgelöseneGruppe {
+# Finden der meist ausgeloesene gruppe und exportieren in einem HTML
+function GetvMaxAusgeloeseneGruppe {
     param(
         $MSSQLConnectionString = $(throw "IP or FQDN is required."),
         $pfadExportHTML= $(throw "Path is requierd.")
     )
     
-    # Finden der meist ausgelösene gruppe
-    $exp = GetMSSQLData -MSSQLConnection $MSSQLConnectionString -SqlQuery "select * from vMaxAusgelöseneGruppe"    
+    # Finden der meist ausgeloesene gruppe
+    $exp = GetMSSQLData -MSSQLConnection $MSSQLConnectionString -SqlQuery "select * from vMaxAusgeloeseneGruppe"    
     ExportTabelleToHTML -Title "Am meisten verwendete Gruppe" -tabelle $exp -pfadExportHTML $pfadExportHTML
 }
 
-#  Finden der am wenigsten ausgelösene gruppe und exportieren in einem HTML
-function GetvMinAusgelöseneGruppe {
+#  Finden der am wenigsten ausgeloesene gruppe und exportieren in einem HTML
+function GetvMinAusgeloeseneGruppe {
     param(
         $MSSQLConnectionString = $(throw "IP or FQDN is required."),
         $pfadExportHTML= $(throw "Path is requierd.")
     )
     
-    #  Finden der am wenigsten ausgelösene gruppe
-    $exp = GetMSSQLData -MSSQLConnection $MSSQLConnectionString -SqlQuery "select * from vMinAusgelöseneGruppe"    
+    #  Finden der am wenigsten ausgeloesene gruppe
+    $exp = GetMSSQLData -MSSQLConnection $MSSQLConnectionString -SqlQuery "select * from vMinAusgeloeseneGruppe"    
     ExportTabelleToHTML -Title "Am wenigsten Verwendete Gruppe" -tabelle $exp -pfadExportHTML $pfadExportHTML
 }
 
 #  Finden der am meist ausgelösener Alarm und exportieren in einem HTML
-function GetvMaxAusgelöseneAlarm {
+function GetvMaxAusgeloeseneAlarm {
     param(
         $MSSQLConnectionString = $(throw "IP or FQDN is required."),
         $pfadExportHTML= $(throw "Path is requierd.")
     )
     
     #  Finden der am meist ausgelösener Alarm
-    $exp = GetMSSQLData -MSSQLConnection $MSSQLConnectionString -SqlQuery "select * from vMaxAusgelöseneAlarm"    
+    $exp = GetMSSQLData -MSSQLConnection $MSSQLConnectionString -SqlQuery "select * from vMaxAusgeloeseneAlarm"    
     ExportTabelleToHTML -Title "Am meisten verwendeter Alarm" -tabelle $exp -pfadExportHTML $pfadExportHTML
 }
 
 #  Finden der am wenigsten ausgelösener Alarm und exportieren in einem HTML
-function GetvMinAusgelöseneAlarm {
+function GetvMinAusgeloeseneAlarm {
     param(
         $MSSQLConnectionString = $(throw "IP or FQDN is required."),
         $pfadExportHTML= $(throw "Path is requierd.")
     )
     
     #  Finden der am wenigsten ausgelösener Alarm
-    $exp = GetMSSQLData -MSSQLConnection $MSSQLConnectionString -SqlQuery "select * from vMinAusgelöseneAlarm"    
+    $exp = GetMSSQLData -MSSQLConnection $MSSQLConnectionString -SqlQuery "select * from vMinAusgeloeseneAlarm"    
     ExportTabelleToHTML -Title "Am wenigsten verwendeter Alarm" -tabelle $exp -pfadExportHTML $pfadExportHTML
 }
 
@@ -61,9 +61,9 @@ function GetvMaxLanuchedBy {
         $pfadExportHTML= $(throw "Path is requierd.")
     )
     
-    #  Finden der des User/Schnittstelle die die meisten Alarme ausgelöset hat
+    #  Finden der des User/Schnittstelle die die meisten Alarme ausgeloeset hat
     $exp = GetMSSQLData -MSSQLConnection $MSSQLConnectionString -SqlQuery "select * from vMaxLanuchedBy"    
-    ExportTabelleToHTML -Title "Die Meisten Alarme ausgelöst durch" -tabelle $exp -pfadExportHTML $pfadExportHTML
+    ExportTabelleToHTML -Title "Die Meisten Alarme ausgeloest durch" -tabelle $exp -pfadExportHTML $pfadExportHTML
 }
 
 #  Finden der Gruppe mit den meisten Usern und exportieren in einem HTML
@@ -75,7 +75,7 @@ function GetvMaxUserinGruppe {
     
     #  Finden der Gruppe mit den meisten Usern
     $exp = GetMSSQLData -MSSQLConnection $MSSQLConnectionString -SqlQuery "select * from vMaxUserinGruppe"   
-    ExportTabelleToHTML -Title "Grösste Gruppe" -tabelle $exp -pfadExportHTML $pfadExportHTML
+    ExportTabelleToHTML -Title "Groesste Gruppe" -tabelle $exp -pfadExportHTML $pfadExportHTML
 }
 
 #  Finden der Gruppe mit den wenigsten Usern und exportieren in einem HTML
@@ -91,26 +91,26 @@ function GetvMinUserinGruppe {
 }
 
 #  Finden des Altesten Alarms und exportieren in einem HTML
-function GetvErsterAusgelösterAlarm{
+function GetvErsterAusgeloesterAlarm{
     param(
         $MSSQLConnectionString = $(throw "IP or FQDN is required."),
         $pfadExportHTML= $(throw "Path is requierd.")
     )
     
     #  Finden des Altesten Alarms
-    $exp = GetMSSQLData -MSSQLConnection $MSSQLConnectionString -SqlQuery "select * from vErsterAusgelösterAlarm"    
+    $exp = GetMSSQLData -MSSQLConnection $MSSQLConnectionString -SqlQuery "select * from vErsterAusgeloesterAlarm"    
     ExportTabelleToHTML -Title "Erster Alarm" -tabelle $exp -pfadExportHTML $pfadExportHTML
 }
 
 #  Finden des Jungsten Alarms und exportieren in einem HTML
-function GetvLetzterAusgelösterAlarm {
+function GetvLetzterAusgeloesterAlarm {
     param(
         $MSSQLConnectionString = $(throw "IP or FQDN is required."),
         $pfadExportHTML= $(throw "Path is requierd.")
     )
     
     #  Finden des Jungsten Alarms
-    $exp = GetMSSQLData -MSSQLConnection $MSSQLConnectionString -SqlQuery "select * from vLetzterAusgelösterAlarm"    
+    $exp = GetMSSQLData -MSSQLConnection $MSSQLConnectionString -SqlQuery "select * from vLetzterAusgeloesterAlarm"    
     ExportTabelleToHTML -Title "Letzter Alarm" -tabelle $exp -pfadExportHTML $pfadExportHTML
 }
 
@@ -193,18 +193,18 @@ function ExportAllToHTML{
     )
 
     # Finden der meist ausgelösene gruppe und exportieren in einem HTML
-    GetvMaxAusgelöseneGruppe -MSSQLConnection $MSSQLConnectionString -pfadExportHTML $pfadExportHTML
+    GetvMaxAusgeloeseneGruppe -MSSQLConnection $MSSQLConnectionString -pfadExportHTML $pfadExportHTML
     
     #  Finden der am wenigsten ausgelösene gruppe und exportieren in einem HTML
-    GetvMinAusgelöseneGruppe -MSSQLConnection $MSSQLConnectionString -pfadExportHTML $pfadExportHTML
+    GetvMinAusgeloeseneGruppe -MSSQLConnection $MSSQLConnectionString -pfadExportHTML $pfadExportHTML
 
     #  Finden der am meist ausgelösener Alarm und exportieren in einem HTML
-    GetvMaxAusgelöseneAlarm -MSSQLConnection $MSSQLConnectionString -pfadExportHTML $pfadExportHTML
+    GetvMaxAusgeloeseneAlarm -MSSQLConnection $MSSQLConnectionString -pfadExportHTML $pfadExportHTML
 
     #  Finden der am wenigsten ausgelösener Alarm und exportieren in einem HTML
-    GetvMinAusgelöseneAlarm -MSSQLConnection $MSSQLConnectionString -pfadExportHTML $pfadExportHTML
+    GetvMinAusgeloeseneAlarm -MSSQLConnection $MSSQLConnectionString -pfadExportHTML $pfadExportHTML
 
-    #  Finden der des User/Schnittstelle die die meisten Alarme ausgelöset hat und exportieren in einem HTML
+    #  Finden der des User/Schnittstelle die die meisten Alarme ausgeloeset hat und exportieren in einem HTML
     GetvMaxLanuchedBy -MSSQLConnection $MSSQLConnectionString -pfadExportHTML $pfadExportHTML
 
     #  Finden der Gruppe mit den meisten Usern und exportieren in einem HTML
@@ -214,10 +214,10 @@ function ExportAllToHTML{
     GetvMinUserinGruppe -MSSQLConnection $MSSQLConnectionString -pfadExportHTML $pfadExportHTML
 
     #  Finden des Altesten Alarms und exportieren in einem HTML
-    GetvErsterAusgelösterAlarm -MSSQLConnection $MSSQLConnectionString -pfadExportHTML $pfadExportHTML
+    GetvErsterAusgeloesterAlarm -MSSQLConnection $MSSQLConnectionString -pfadExportHTML $pfadExportHTML
 
     #  Finden des Altesten Alarms und exportieren in einem HTML
-    GetvLetzterAusgelösterAlarm -MSSQLConnection $MSSQLConnectionString -pfadExportHTML $pfadExportHTML
+    GetvLetzterAusgeloesterAlarm -MSSQLConnection $MSSQLConnectionString -pfadExportHTML $pfadExportHTML
 
     #  Finden des Mediums der am meisten Getverwendet wird und exportieren in einem HTML
     GetvMaxVerwendetesMedium -MSSQLConnection $MSSQLConnectionString -pfadExportHTML $pfadExportHTML

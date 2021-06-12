@@ -7,7 +7,7 @@
 function GetImportFormatiertPersonen {
 
     param (
-        $Pfad
+        $Pfad = $(throw "Pfad is Missing.")
     )
     
     # Einlesen der CSV
@@ -33,7 +33,7 @@ function GetImportFormatiertPersonen {
 function GetImportFormatiertGruppen {
 
     param (
-        $Pfad
+        $Pfad = $(throw "Pfad is Missing.")
     )
     
     # Einlesen der CSV
@@ -47,8 +47,8 @@ function GetImportFormatiertGruppen {
 function GetImportFormatiertPersonenGruppen {
 
     param (
-        $Pfad,
-        $GrupenListe
+        $Pfad = $(throw "Pfad is Missing."),
+        $GrupenListe = $(throw "Liste is Missing.")
     )
     
     # Importieren der Personen Gruppen Zuweisungen, Skipen info linien, Als CSV Convertieren

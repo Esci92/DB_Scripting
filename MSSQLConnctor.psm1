@@ -99,8 +99,18 @@ function SetMSSQLData {
         $SqlQuery = $(throw "SQL Comannd is required.")
     )
     
-    # Abrufen der Funktion 
-    return MSSQLWriteData -SQLConnection $MSSQLConnection -SqlQuery $SqlQuery
+    try {
+        # Senden der Daten zum SQL
+        MSSQLWriteData -SQLConnection $MSSQLConnection -SqlQuery $SqlQuery
+        
+        # Schreiben der Log
+        WriteLog -Output $SqlQuery -errors $false -Logsfile $Logspfad
+    } 
+    catch {
+                    
+        # Schreiben der ErrorLog
+        WriteLog -Output $SqlQuery -errors $true -Logsfile $Logspfad
+    } 
 }
 
 # Update MSSQLData AddRow or Update Tabells
