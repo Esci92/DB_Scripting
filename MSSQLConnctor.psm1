@@ -1,8 +1,4 @@
-﻿# 30.03.2021 - CE
-# 31.03.2021 - CE
-# 22.05.2021 - CE
-
-#/--------------------------------------------------------------------------------------/
+﻿#/--------------------------------------------------------------------------------------/
 #/ # MSSQL Server - MSSQL Connection and Methoden                                       /
 #/ Semester Arbeit - Christian Escolano / Robert Mulder                                 /
 #/--------------------------------------------------------------------------------------/
@@ -96,7 +92,8 @@ function SetMSSQLData {
 
     param(  
         $MSSQLConnection = $(throw "IP or FQDN is required."), 
-        $SqlQuery = $(throw "SQL Comannd is required.")
+        $SqlQuery = $(throw "SQL Comannd is required."),
+        $Logspfad = $(throw "No Path submited")
     )
     
     try {
@@ -104,12 +101,12 @@ function SetMSSQLData {
         MSSQLWriteData -SQLConnection $MSSQLConnection -SqlQuery $SqlQuery
         
         # Schreiben der Log
-        WriteLog -Output $SqlQuery -errors $false -Logsfile $Logspfad
+        WriteLog -Output $SqlQuery -errors $false -Logspfad $Logspfad
     } 
     catch {
                     
         # Schreiben der ErrorLog
-        WriteLog -Output $SqlQuery -errors $true -Logsfile $Logspfad
+        WriteLog -Output $SqlQuery -errors $true -Logspfad $Logspfad
     } 
 }
 
@@ -166,4 +163,27 @@ function UpdateMSSQLData {
 
     # Verbindung Schliessen
     $SQLConnection.Close()
+}
+
+#○ Erstellen des User in SQL für den DB Access
+function CreateSQLUser {
+
+    param (
+        $MSSQLConnection = $(throw "IP or FQDN is required."), 
+        $user = $(throw "Username is required."), 
+        $password = $(throw "Password is Missing."),
+        $Datenbank = $(throw "DB is Missing.")
+    )
+
+    # Aufbauen des Strings
+    $sql = "CREATE LOGIN " + $user
+    $sql += " WITH PASSWORD = '" + $password + "'"
+    $sql += ", DEFAULT_DATABASE = Alarm, CHECK_EXPIRATION = ON;"  
+    $sql += "CREATE USER " + $user 
+    $sql += " FOR LOGIN " + $user +";"
+    $sql += " GRANT SELECT to " + $user 
+
+    $sql
+    # Erstellen des Users
+    SetMSSQLData -MSSQLConnection $MSSQLConnectionString -SqlQuery $sql -Logspfad $Logspfad
 }

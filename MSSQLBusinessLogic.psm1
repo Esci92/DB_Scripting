@@ -11,13 +11,16 @@ function SetMSSQLMedium {
 
     param(  
         $MSSQLConnection = $(throw "IP or FQDN is required."), 
-        $CSVPersonen = $(throw "No list submited")
+        $CSVPersonen = $(throw "No list submited"),
+        $Logspfad = $(throw "No Path submited")
     )
     
+    $Logspfad
+
     foreach ($medium in ($CSVPersonen.Medium | Select-Object -Unique)){
 
         # Abrufen der Gespeicherten Prozedur
-        SetMSSQLData -MSSQLConnection $MSSQLConnectionString -SqlQuery ("exec uspMediumInsert '"+ $medium + "'")
+        SetMSSQLData -MSSQLConnection $MSSQLConnectionString -SqlQuery ("exec uspMediumInsert '"+ $medium + "'") -Logspfad $Logspfad
     }
 }
 
@@ -25,13 +28,14 @@ function SetMSSQLGrupen {
 
     param(  
         $MSSQLConnection = $(throw "IP or FQDN is required."), 
-        $CSVGrupen = $(throw "No list submited")
+        $CSVGrupen = $(throw "No list submited"),
+        $Logspfad = $(throw "No Path submited")
     )
     
     foreach ($Grupen in $CSVGrupen){
 
         # Abrufen der Gespeicherten Prozedur
-        SetMSSQLData -MSSQLConnection $MSSQLConnectionString -SqlQuery ("exec uspGruppeUpdateInsert @GName = '" + $Grupen.Gruppenname + "', @GNumber = " + $Grupen.Gruppennummer) 
+        SetMSSQLData -MSSQLConnection $MSSQLConnectionString -SqlQuery ("exec uspGruppeUpdateInsert @GName = '" + $Grupen.Gruppenname + "', @GNumber = " + $Grupen.Gruppennummer) -Logspfad $Logspfad
     }
 }
 
@@ -39,13 +43,14 @@ function SetMSSQLPersonen {
 
     param(  
         $MSSQLConnection = $(throw "IP or FQDN is required."), 
-        $CSVPersonen = $(throw "No list submited")
+        $CSVPersonen = $(throw "No list submited"),
+        $Logspfad = $(throw "No Path submited")
     )
 
     foreach ($pers in $CSVPersonen ){
             
         # Senden der Daten zum SQL
-        SetMSSQLData -MSSQLConnection $MSSQLConnectionString -SqlQuery ("exec uspBenutzerUpdateInsert @Vorname = '"+ $pers.Vorname  + "',@Nachname = '" + $pers.Nachname + "',@Kontakt = '" + $pers.Number + "',@Medium = '" + $pers.Medium + "'")
+        SetMSSQLData -MSSQLConnection $MSSQLConnectionString -SqlQuery ("exec uspBenutzerUpdateInsert @Vorname = '"+ $pers.Vorname  + "',@Nachname = '" + $pers.Nachname + "',@Kontakt = '" + $pers.Number + "',@Medium = '" + $pers.Medium + "'") -Logspfad $Logspfad
     }
 }
 
@@ -53,7 +58,8 @@ function SetMSSQLAlarmStat {
 
     param(  
         $MSSQLConnection = $(throw "IP or FQDN is required."), 
-        $PostgresData = $(throw "No list submited")
+        $PostgresData = $(throw "No list submited"),
+        $Logspfad = $(throw "No Path submited")
     )
     
     foreach ($PData in $PostgresData){
@@ -71,10 +77,10 @@ function SetMSSQLAlarmStat {
             $SQLExec += ",@launchedby = '" + $PData.launchedby + "'"
             $SQLExec += ",@alrname = '" + $PData.alrname + "'"
             $SQLExec += ",@alrnumber = " + $PData.alrnumber
-            $SQLExec += ",@GruppeID = " + $PData.grpnumber
+            $SQLExec += ",@GruppeID = " + $PData.grpnumber 
             
             # Abrufen der Gespeicherten Prozedur        
-            SetMSSQLData -MSSQLConnection $MSSQLConnectionString -SqlQuery $SQLExec
+            SetMSSQLData -MSSQLConnection $MSSQLConnectionString -SqlQuery $SQLExec -Logspfad $Logspfad
     
         }
     }
@@ -85,7 +91,8 @@ function SetMSSQLGrupenPersonen {
     param(  
         $MSSQLConnection = $(throw "IP or FQDN is required."), 
         $CSVGrupenPersonen = $(throw "No list submited"),
-        $CSVGrupen = $(throw "No list submited")
+        $CSVGrupen = $(throw "No list submited"),
+        $Logspfad = $(throw "No Path submited")
     )
 
     foreach ($Grpers in $CSVGrupenPersonen){
@@ -96,7 +103,7 @@ function SetMSSQLGrupenPersonen {
             if ($Grpers.($Gr) -gt 0){
 
                 # Abrufen der Gespeicherten Prozedur
-                SetMSSQLData -MSSQLConnection $MSSQLConnectionString -SqlQuery ("uspBenutzerGruppeInsert @GNumber = " + $Gr + ", @Kontakt = '" + $Grpers.H8 + "', @Medium = '" + $Grpers.H9 + "'")
+                SetMSSQLData -MSSQLConnection $MSSQLConnectionString -SqlQuery ("uspBenutzerGruppeInsert @GNumber = " + $Gr + ", @Kontakt = '" + $Grpers.H8 + "', @Medium = '" + $Grpers.H9 + "'") -Logspfad $Logspfad
             }
         }
     }

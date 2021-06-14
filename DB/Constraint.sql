@@ -44,18 +44,18 @@ go
 
 -- Erstellen GruppeID Referenz
 alter table Alarmstat
-	add constraint fk_Alarmstat_GruppeID FOREIGN KEY (GruppeID) REFERENCES Gruppe(GruppeID);
+	add constraint fk_Alarmstat_GruppeID FOREIGN KEY (GruppeID) REFERENCES Gruppe(GruppeID) ON DELETE CASCADE;
 go
 
 -- Erstellen GruppeID Referenz / BenutzerID Referenz
 alter table BenutzerGruppe
-	add constraint fk_BenutzerGruppe_GruppeID FOREIGN KEY (GruppeID) REFERENCES Gruppe(GruppeID),
-		constraint fk_BenutzerGruppe_BenutzerID FOREIGN KEY (BenutzerID) REFERENCES Benutzer(BenutzerID);
+	add constraint fk_BenutzerGruppe_GruppeID FOREIGN KEY (GruppeID) REFERENCES Gruppe(GruppeID) ON DELETE CASCADE,
+		constraint fk_BenutzerGruppe_BenutzerID FOREIGN KEY (BenutzerID) REFERENCES Benutzer(BenutzerID) ON DELETE CASCADE;
 go
 
 -- Erstellen MediumID Referenz / BenutzerID Referenz
 alter table MediumBenutzer
-	add constraint fk_MediumBenutzer_BenutzerID FOREIGN KEY (BenutzerID) REFERENCES Benutzer(BenutzerID),
-		constraint fk_MediumBenutzer_MediumID FOREIGN KEY (MediumID) REFERENCES "Medium"(MediumID);
+	add constraint fk_MediumBenutzer_BenutzerID FOREIGN KEY (BenutzerID) REFERENCES Benutzer(BenutzerID) ON DELETE CASCADE,
+		constraint fk_MediumBenutzer_MediumID FOREIGN KEY (MediumID) REFERENCES "Medium"(MediumID) ON DELETE CASCADE;
 go
 

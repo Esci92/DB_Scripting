@@ -9,7 +9,7 @@ use Alarm;
 go
 
 -- Finden der meist ausgelösene gruppe
-CREATE view vMaxAusgelöseneGruppe 
+CREATE view vMaxAusgeloeseneGruppe 
 AS
 	select GNumber,Gname,COUNT(*) anzahl from AlarmStat 
 	join Gruppe on Gruppe.GruppeID = AlarmStat.GruppeID
@@ -20,7 +20,7 @@ AS
 go
 
 -- Finden der am wenigsten ausgelösene gruppe
-CREATE view vMinAusgelöseneGruppe 
+CREATE view vMinAusgeloeseneGruppe 
 AS
 	select GNumber,Gname,COUNT(*) anzahl from AlarmStat 
 	join Gruppe on Gruppe.GruppeID = AlarmStat.GruppeID
@@ -31,20 +31,20 @@ AS
 go
 
 -- Finden der am meist ausgelösener Alarm
-CREATE view vMaxAusgelöseneAlarm
+CREATE view vMaxAusgeloeseneAlarm
 AS
-	select alrnumber,COUNT(*) anzahl from AlarmStat 
-	group by alrnumber
+	select alrnumber,alrname,COUNT(*) anzahl from AlarmStat 
+	group by alrnumber,alrname
 	having COUNT(*) = 
 	(select max(a) from 
 	(select alrnumber, COUNT(*) a from AlarmStat group by alrnumber) aa)
 go
 
 -- Finden der am wenigsten ausgelösener Alarm
-CREATE view vMinAusgelöseneAlarm
+CREATE view vMinAusgeloeseneAlarm
 AS
-	select alrnumber,COUNT(*) anzahl from AlarmStat 
-	group by alrnumber
+	select alrnumber,alrname,COUNT(*) anzahl from AlarmStat 
+	group by alrnumber,alrname
 	having COUNT(*) = 
 	(select min(a) from 
 	(select alrnumber, COUNT(*) a from AlarmStat group by alrnumber) aa)
@@ -88,7 +88,7 @@ AS
 go
 
 -- Finden des Altesten Alarms
-CREATE view vErsterAusgelösterAlarm
+CREATE view vErsterAusgeloesterAlarm
 AS
 	select alrnumber, alrname, dbo.fTimeStampToDate(tstamp) Datum from AlarmStat 
 	group by tstamp, alrnumber, alrname
@@ -98,7 +98,7 @@ AS
 go
 
 -- Finden des Jungsten Alarms
-CREATE view vLetzterAusgelösterAlarm
+CREATE view vLetzterAusgeloesterAlarm
 AS
 	select alrnumber, alrname, dbo.fTimeStampToDate(tstamp) Datum from AlarmStat 
 	group by tstamp, alrnumber, alrname

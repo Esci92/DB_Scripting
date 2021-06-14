@@ -9,7 +9,7 @@ function WriteLog {
     param(  
         $Output = $(throw "Now output defined"), 
         $errors = $false,
-        $Logsfile = $(throw "Now outputfile defined")
+        $Logspfad = $(throw "Now outputfile defined")
     )
     
     if ($errors){
@@ -29,6 +29,31 @@ function WriteLog {
     Get-Date | Out-File -FilePath $Logsfile -Append -NoNewline
     ";" | Out-File -FilePath $Logsfile -Append -NoNewline
     $Output | Out-File -FilePath $Logsfile -Append
+}
+
+# Erstellen der Logdatei
+function CreateLog {
+
+    param(  
+        $Logspfad = $(throw "Now outputfile defined")
+    )
+    
+    # Erstellen der Logdateien
+    Out-File -FilePath ($Logspfad + "\ErrorLogs.csv")
+    Out-File -FilePath ($Logspfad + "\Logs.csv")
+}
+
+# Erstellen der Ordnerstruktur
+function CreateOrdner {
+
+    param(  
+        $stampfad = $(throw "Now outputfile defined")
+    )
+    
+    # Erstellen der Logdateien
+    $a = mkdir -Force ($stampfad + "\Export-HTML")
+    $a = mkdir -Force ($stampfad + "\\Export-CSV")
+    $a = mkdir -Force ($stampfad + "\Logs")
 }
 
 # Convert Tabele zu PsObject
@@ -52,13 +77,54 @@ function ExportTabelleToHTML {
         $pfadExportHTML= $(throw "Path is requierd."),
         $Title = $(throw "No Title.")
     )
-
-    # Convert Tabele zu PsObject
-    $tabelleObject = DataTableToPSObject -DataTable $tabelle
+    try {
+         
+        # Convert Tabele zu PsObject
+        $tabelleObject = DataTableToPSObject -DataTable $tabelle
     
-    #Outputfille Erstellen
-    $tabelleout = $tabelleObject | ConvertTo-Html -Title $Title -body ('<h1 style="color:Black;font-size:40px;">' + $Title + '</h1>') 
+        # Outputfille Erstellen
+        $tabelleout = $tabelleObject | ConvertTo-Html -Title $Title -body ('<h1 style="color:Black;font-size:40px;">' + $Title + '</h1>') 
 
-    #Schreiben des Outputfilles
-    $tabelleout | Out-File -FilePath ($pfadExportHTML+$Title + ".html")
+        # Schreiben des Outputfilles
+        $tabelleout | Out-File -FilePath ($pfadExportHTML+$Title + ".html")
+        
+        # Schreiben des Logs
+        WriteLog -Output ("Exporting" + $pfadExportCSV+$FileName) -errors $false -Logspfad $Logspfad
+    }
+    catch {
+
+        # Schreiben des Logs
+        WriteLog -Output ("Exporting" + $pfadExportCSV+$FileName) -errors $true -Logspfad $Logspfad        
+    }
+}
+
+
+# Exportieren der Tabellen
+function ExportTabellenToCSV {
+
+    param(  
+        $tabelle = $(throw "tabelle is required."), 
+        $pfadExportCSV= $(throw "Path is requierd."),
+        $FileName = $(throw "No FileName.")
+    )
+
+    try {
+        # Convert Tabele zu PsObject
+        $tabelleObject = DataTableToPSObject -DataTable $tabelle
+
+        # Outputfille Erstellen
+        $tabelleout = $tabelleObject | ConvertTo-Csv 
+
+        # Schreiben des Outputfilles
+        $tabelleout | Out-File -FilePath ($pfadExportCSV+$FileName)
+
+        # Schreiben des Logs
+        WriteLog -Output ("Exporting" + $pfadExportCSV+$FileName) -errors $false -Logspfad $Logspfad
+    }
+
+    catch {
+
+        # Schreiben des Logs
+        WriteLog -Output ("Exporting" + $pfadExportCSV+$FileName) -errors $true -Logspfad $Logspfad
+    }
 }

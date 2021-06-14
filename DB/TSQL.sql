@@ -56,7 +56,7 @@ begin
 	end
 go 
 
--- 
+-- Insert Benutzer oder Updaten
 create procedure uspBenutzerUpdateInsert(@Vorname varchar(45), @Nachname varchar(45), @Kontakt varchar(60), @Medium varchar(10))
 as
 begin
@@ -70,18 +70,25 @@ begin
 		where Vorname = @Vorname and Nachname = @Nachname)begin
         set nocount off; -- Für Powershell Rückgabewert
 		
-		-- Insert der Daten in die Benutzer Tabelle
-		insert into Benutzer (Vorname, Nachname )
-		values (@Vorname, @Nachname);
+		-- beginen mit der Transaction
+		begin tran
 
-		-- erstellen und befühlen der letzen eingesetzten ID
-		DECLARE @IDBenutzer BIGINT
-		SELECT @IDBenutzer = SCOPE_IDENTITY()
+			-- Insert der Daten in die Benutzer Tabelle
+			insert into Benutzer (Vorname, Nachname )
+			values (@Vorname, @Nachname);
 
-		-- Insert des Medium / Benutzer mit der Mediums ID
-		insert into MediumBenutzer (BenutzerID, MediumID, Kontakt )
-		values (@IDBenutzer, (select MediumID from "Medium" where "Type" = @Medium), @Kontakt);
-		end
+			-- erstellen und befühlen der letzen eingesetzten ID
+			DECLARE @IDBenutzer BIGINT
+			SELECT @IDBenutzer = SCOPE_IDENTITY()
+
+			-- Insert des Medium / Benutzer mit der Mediums ID
+			insert into MediumBenutzer (BenutzerID, MediumID, Kontakt )
+			values (@IDBenutzer, (select MediumID from "Medium" where "Type" = @Medium), @Kontakt);
+
+		-- Abschliesen der Transaction
+		commit tran
+	end
+	
 
 	-- Insert new Medium
 	else if	not exists (select Vorname, Nachname, Kontakt, "Type" from Benutzer 

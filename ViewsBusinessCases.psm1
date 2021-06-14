@@ -1,8 +1,5 @@
-# 31.03.2021 - CE
-#
-
 #/--------------------------------------------------------------------------------------/
-#/ # MSSQL Server - MSSQL Connection and Methoden                                       /
+#/ # MSSQL Server - MSSQL Views                                                         /
 #/ Semester Arbeit - Christian Escolano / Robert Mulder                                 /
 #/--------------------------------------------------------------------------------------/
 

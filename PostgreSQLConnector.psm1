@@ -1,15 +1,10 @@
-# 30.03.2021 - CE
-# 31.03.2021 - CE
-# 21.05.2021 - CE
-# 22.05.2021 - CE
-
 #/--------------------------------------------------------------------------------------/
 #/ PostgreSQL Server - PostgreSQL Connection and Methodes                               /
 #/ Semester Arbeit - Christian Escolano / Robert Mulder                                 /
 #/--------------------------------------------------------------------------------------/
 
-# Connection String für PostgresSQL zusammen setzen
-function CreatePostgresConnectionString{
+# Connection String fuer PostgresSQL zusammen setzen
+function CreatePostgresConnectionString {
 
     param(  
         $PostgreIP=$(throw "IP or FQDN is required."), 
@@ -27,10 +22,9 @@ function CreatePostgresConnectionString{
     $PostgreSQLConnection += "Uid=" + $Username + ";"
     $PostgreSQLConnection += "Pwd=" + $Password + ";"
 
-    # Rückgabe Zusammengebauter String
+    # Rueckgabe Zusammengebauter String
     return $PostgreSQLConnection
 }
-Export-ModuleMember -Function CreatePostgresConnectionString
 
 # Connecting via OBDC zu PostgreSQL
 function ConnectODBCData{
@@ -48,12 +42,12 @@ function ConnectODBCData{
     # Setzen des Connections String für die Remote Verbindung
     $ODBCconnector.ConnectionString = $ConectionString
 
-    # Öffnen der Verbindung
+    # oeffnen der Verbindung
     $ODBCconnector.open()
 
     # Setzen Timeout
     $command.CommandTimeout=60
-
+    
     # Erstellen des DatenAdapter
     $da=New-Object system.Data.odbc.odbcDataAdapter($command)
 
@@ -78,4 +72,3 @@ function GetProstgrsSQLData{
     # Verbinden der Datenbank und Holen der Daten
     ConnectODBCData -ConectionString $PostgreSQLConnection -SqlQuery $SqlQuery
 }
-Export-ModuleMember -Function GetProstgrsSQLData
