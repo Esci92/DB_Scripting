@@ -1,7 +1,3 @@
-# 30.03.2021 - CE
-# 31.03.2021 - CE
-# 22.05.2021 - CE
-
 #/--------------------------------------------------------------------------------------/
 #/ # MSSQL Server - MSSQL Connection and Methoden                                       /
 #/ Semester Arbeit - Christian Escolano / Robert Mulder                                 /

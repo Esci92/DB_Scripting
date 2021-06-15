@@ -10,7 +10,7 @@ function GetTabelleAlarmStat {
     )
     
     #  Finden des Alarms der am wenigsten Zeitverbraucht hat, bis er alarmiert hat.
-    $exp = GetMSSQLData -MSSQLConnection $MSSQLConnectionString -SqlQuery "select * from AlarmStat"
+    $exp = GetMSSQLData -MSSQLConnection $MSSQLConnectionString -SqlQuery "select * from AlarmStat order by AlarmStatID"
     ExportTabellenToCSV  -tabelle $exp -pfadExportCSV $pfadExportCSV -FileName "AlarmStat.csv"
 }
 
@@ -21,7 +21,7 @@ function GetTabelleBenutzer {
     )
     
     #  Finden des Alarms der am wenigsten Zeitverbraucht hat, bis er alarmiert hat.
-    $exp = GetMSSQLData -MSSQLConnection $MSSQLConnectionString -SqlQuery "select * from Benutzer"
+    $exp = GetMSSQLData -MSSQLConnection $MSSQLConnectionString -SqlQuery "select * from Benutzer order by BenutzerID"
     ExportTabellenToCSV  -tabelle $exp -pfadExportCSV $pfadExportCSV -FileName "Benutzer.csv"
 }
 
@@ -33,7 +33,7 @@ function GetTabelleBenutzerGruppe {
     )
     
     #  Finden des Alarms der am wenigsten Zeitverbraucht hat, bis er alarmiert hat.
-    $exp = GetMSSQLData -MSSQLConnection $MSSQLConnectionString -SqlQuery "select * from BenutzerGruppe"
+    $exp = GetMSSQLData -MSSQLConnection $MSSQLConnectionString -SqlQuery "select * from BenutzerGruppe order by BenutzerGruppeID"
     ExportTabellenToCSV  -tabelle $exp -pfadExportCSV $pfadExportCSV -FileName "BenutzerGruppe.csv"
 }
 
@@ -45,7 +45,7 @@ function GetTabelleGruppe {
     )
     
     #  Finden des Alarms der am wenigsten Zeitverbraucht hat, bis er alarmiert hat.
-    $exp = GetMSSQLData -MSSQLConnection $MSSQLConnectionString -SqlQuery "select * from Gruppe"
+    $exp = GetMSSQLData -MSSQLConnection $MSSQLConnectionString -SqlQuery "select * from Gruppe order by GruppeID"
     ExportTabellenToCSV  -tabelle $exp -pfadExportCSV $pfadExportCSV -FileName "Gruppe.csv"
 }
 
@@ -57,7 +57,7 @@ function GetTabelleMedium {
     )
     
     #  Finden des Alarms der am wenigsten Zeitverbraucht hat, bis er alarmiert hat.
-    $exp = GetMSSQLData -MSSQLConnection $MSSQLConnectionString -SqlQuery 'select * from "Medium"'
+    $exp = GetMSSQLData -MSSQLConnection $MSSQLConnectionString -SqlQuery 'select * from "Medium" order by MediumID'
     ExportTabellenToCSV  -tabelle $exp -pfadExportCSV $pfadExportCSV -FileName "Medium.csv"
 }
 
@@ -68,7 +68,7 @@ function GetTabelleMediumBenutzer {
     )
     
     #  Finden des Alarms der am wenigsten Zeitverbraucht hat, bis er alarmiert hat.
-    $exp = GetMSSQLData -MSSQLConnection $MSSQLConnectionString -SqlQuery "select * from MediumBenutzer"
+    $exp = GetMSSQLData -MSSQLConnection $MSSQLConnectionString -SqlQuery "select * from MediumBenutzer order by MediumBenutzerID"
     ExportTabellenToCSV  -tabelle $exp -pfadExportCSV $pfadExportCSV -FileName "MediumBenutzer.csv"
 }
 

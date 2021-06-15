@@ -113,10 +113,10 @@ function ExportTabellenToCSV {
         $tabelleObject = DataTableToPSObject -DataTable $tabelle
 
         # Outputfille Erstellen
-        $tabelleout = $tabelleObject | ConvertTo-Csv 
+        $tabelleout = $tabelleObject | ConvertTo-Csv -Delimiter ";"
 
         # Schreiben des Outputfilles
-        $tabelleout | Out-File -FilePath ($pfadExportCSV+$FileName)
+        $tabelleout | Out-File -FilePath ($pfadExportCSV+$FileName) -Encoding utf8
 
         # Schreiben des Logs
         WriteLog -Output ("Exporting" + $pfadExportCSV+$FileName) -errors $false -Logspfad $Logspfad
