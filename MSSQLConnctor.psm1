@@ -6,12 +6,29 @@
 # Erstellen MSSQL Verbindungs String
 function CreateMSSQLConnectionString { 
 
+    <#
+        .SYNOPSIS
+        Erstellen MSSQL Verbindungs String
+
+        .DESCRIPTION
+        Erstellen MSSQL Verbindungs String
+
+        .EXAMPLE
+        PS> CreateMSSQLConnectionString -MSSQLIP "192.168.10.144" -Username "username" -Password "password" -Database "Alarm"
+
+        .OUTPUTS
+        String
+
+        .Link
+        Keiner
+    #>
+
     param (
-        $MSSQLIP = $(throw "IP or FQDN is required."), 
+        [parameter(Mandatory=$true)] $MSSQLIP,
         $MSSQLPort = "1433", 
-        $Username = $(throw "Username is required."), 
-        $Password = $(throw "Password is required."), 
-        $Database = $(throw "Database is required.")
+        [parameter(Mandatory=$true)] $Username, 
+        [parameter(Mandatory=$true)] $Password, 
+        [parameter(Mandatory=$true)] $Database
     )
     
     # Connection String für MSSQL zusammen setzen
@@ -28,9 +45,26 @@ function CreateMSSQLConnectionString {
  # Einlesen der Datan aus der DB
 function MSSQLReadData {
 
+    <#
+        .SYNOPSIS
+        Einlesen der Datan aus der DB
+
+        .DESCRIPTION
+        Einlesen der Datan aus der DB
+
+        .EXAMPLE
+        PS> MSSQLReadData -SQLConnection Server=192.168.10.144,1433;Database=Alarm;;Integrated Security=false;Uid=username;Pwd=password; -SqlQuery "select * from Alarmstat"
+
+        .OUTPUTS
+        Dataset
+
+        .Link
+        Keiner
+    #>
+
     Param (
-        $SQLConnection = $(throw "Now Connection String"), 
-        $SQLQuery = $(throw "Missing SQL Querry") 
+        [parameter(Mandatory=$true)] $SQLConnection,
+        [parameter(Mandatory=$true)] $SQLQuery
     )
 
     # Erstellen der Objekte
@@ -47,9 +81,26 @@ function MSSQLReadData {
 # Daten Schreiben in der Tabelle
 function MSSQLWriteData { 
 
+    <#
+        .SYNOPSIS
+        Daten Schreiben in der Tabelle
+
+        .DESCRIPTION
+        Daten Schreiben in der Tabelle
+
+        .EXAMPLE
+        PS> MSSQLWriteData -SQLConnection Server=192.168.10.144,1433;Database=Alarm;;Integrated Security=false;Uid=username;Pwd=password; -SqlQuery "update benutzer set Name = 'Escolano' where Name = 'Mulder'"
+
+        .OUTPUTS
+        Dataset
+
+        .Link
+        Keiner
+    #>
+
     param (
-        $SQLConnection = $(throw "Now Connection String"), 
-        $SQLQuery = $(throw "Missing SQL Querry") 
+        [parameter(Mandatory=$true)] $SQLConnection, 
+        [parameter(Mandatory=$true)] $SQLQuery
     )
 
     # Definieren Connection String und Command Sting
@@ -78,9 +129,26 @@ function MSSQLWriteData {
 # Get MSSQL Data Get Funktion
 function GetMSSQLData {
 
+    <#
+        .SYNOPSIS
+        Get MSSQL Data Get Funktion
+
+        .DESCRIPTION
+        Get MSSQL Data Get Funktion
+
+        .EXAMPLE
+        PS> GetMSSQLData -MSSQLConnection Server=192.168.10.144,1433;Database=Alarm;;Integrated Security=false;Uid=username;Pwd=password; -SqlQuery "select * from vMinAusgeloeseneAlarm"
+
+        .OUTPUTS
+        Dataset
+
+        .Link
+        Keiner
+    #>
+
     param(  
-        $MSSQLConnection = $(throw "IP or FQDN is required."), 
-        $SqlQuery = $(throw "SQL Comannd is required.")
+        [parameter(Mandatory=$true)] $MSSQLConnection,
+        [parameter(Mandatory=$true)] $SqlQuery
     )
 
     # Abrufen der Funktion und Return
@@ -90,10 +158,27 @@ function GetMSSQLData {
 # Set MSSQL Data Set function
 function SetMSSQLData {
 
+    <#
+        .SYNOPSIS
+        Set MSSQL Data Set function
+
+        .DESCRIPTION
+        Set MSSQL Data Set function
+
+        .EXAMPLE
+        PS> SetMSSQLData -MSSQLConnection Server=192.168.10.144,1433;Database=Alarm;;Integrated Security=false;Uid=username;Pwd=password; -SqlQuery "update benutzer set Name = 'Escolano' where Name = 'Mulder'" -Logspfad "C:\Logs"
+
+        .OUTPUTS
+        Dataset
+
+        .Link
+        Keiner
+    #>    
+
     param(  
-        $MSSQLConnection = $(throw "IP or FQDN is required."), 
-        $SqlQuery = $(throw "SQL Comannd is required."),
-        $Logspfad = $(throw "No Path submited")
+        [parameter(Mandatory=$true)] $MSSQLConnection,
+        [parameter(Mandatory=$true)] $SqlQuery,
+        [parameter(Mandatory=$true)] $Logspfad
     )
     
     try {
@@ -112,9 +197,30 @@ function SetMSSQLData {
 
 # Update MSSQLData AddRow or Update Tabells
 function UpdateMSSQLData {
+
+    <#
+        .SYNOPSIS
+        Update MSSQLData AddRow or Update Tabells
+
+        .DESCRIPTION
+        Update MSSQLData AddRow or Update Tabells
+
+        .EXAMPLE
+        PS> UpdateMSSQLData -MSSQLConnection Server=192.168.10.144,1433;Database=Alarm;;Integrated Security=false;Uid=username;Pwd=password; -SelectCommand "select * from Gruppe" -addrow -ColumName '2'  $UpdateValue (1,TestGruppe)
+        
+        .EXAMPLE
+        PS> UpdateMSSQLData -MSSQLConnection Server=192.168.10.144,1433;Database=Alarm;;Integrated Security=false;Uid=username;Pwd=password; -SelectCommand "select * from Gruppe" -ColumName '2'  $UpdateValue (1,TestGruppe)
+        
+        .OUTPUTS
+        Dataset
+
+        .Link
+        Keiner
+    #>    
+
     param (
-        $MSSQLConnection = $(throw "IP or FQDN is required."), 
-        $SelectCommand = $(throw "Select * is Missing."),
+        [parameter(Mandatory=$true)] $MSSQLConnection,
+        [parameter(Mandatory=$true)] $SelectCommand,
         [switch]$AddRow,
         $RowNum,
         $ColumName,
@@ -165,14 +271,28 @@ function UpdateMSSQLData {
     $SQLConnection.Close()
 }
 
-#○ Erstellen des User in SQL für den DB Access
+# Erstellen des User in SQL für den DB Access
 function CreateSQLUser {
 
+    <#
+        .SYNOPSIS
+        Erstellen des User in SQL für den DB Access
+
+        .DESCRIPTION
+        Erstellen des User in SQL für den DB Access
+
+        .EXAMPLE
+        PS> CreateSQLUser -MSSQLConnection Server=192.168.10.144,1433;Database=Alarm;;Integrated Security=false;Uid=username;Pwd=password; -user "Christian" -password "Sicheres PW" -Datenbank "Alarm"
+        
+        .Link
+        Keiner
+    #>  
+
     param (
-        $MSSQLConnection = $(throw "IP or FQDN is required."), 
-        $user = $(throw "Username is required."), 
-        $password = $(throw "Password is Missing."),
-        $Datenbank = $(throw "DB is Missing.")
+        [parameter(Mandatory=$true)] $MSSQLConnection,
+        [parameter(Mandatory=$true)] $user,
+        [parameter(Mandatory=$true)] $password,
+        [parameter(Mandatory=$true)] $Datenbank
     )
 
     # Aufbauen des Strings
@@ -183,7 +303,6 @@ function CreateSQLUser {
     $sql += " FOR LOGIN " + $user +";"
     $sql += " GRANT SELECT to " + $user 
 
-    $sql
     # Erstellen des Users
     SetMSSQLData -MSSQLConnection $MSSQLConnectionString -SqlQuery $sql -Logspfad $Logspfad
 }

@@ -112,8 +112,7 @@ $status = SetMSSQLPersonen -MSSQLConnection $MSSQLConnectionString -CSVPersonen 
 $status = SetMSSQLGrupenPersonen -MSSQLConnection $MSSQLConnectionString -CSVGrupenPersonen $CSVGrupenPersonen -CSVGrupen $CSVGrupen -Logspfad $Logspfad
 
 # Exportieren der BusinessCases auf HTML
-$status = ExportAllToHTML -MSSQLConnection $MSSQLConnectionString -pfadExportHTML $pfadExportHTML -Logspfad $Logspfad
+$status = ExportAllToHTML -MSSQLConnection $MSSQLConnectionString -pfadExportHTML $pfadExportHTML
 
 # Exportieren der Daten in CSV
-$status = ExportTabellen -MSSQLConnection $MSSQLConnectionString -pfadExportCS $pfadExportCSV -Logspfad $Logspfad
-
+$status = ExportTabellen -MSSQLConnection $MSSQLConnectionString -pfadExportCS $pfadExportCSV

@@ -6,12 +6,29 @@
 # Connection String fuer PostgresSQL zusammen setzen
 function CreatePostgresConnectionString {
 
+    <#
+        .SYNOPSIS
+        Connection String fuer PostgresSQL zusammen setzen
+
+        .DESCRIPTION
+        Connection String fuer PostgresSQL zusammen setzen
+
+        .EXAMPLE
+        PS> CreatePostgresConnectionString -PostgreIP "192.168.10.246" -Username "username" -Password "password" -Database "nv_alarm"
+
+        .OUTPUTS
+        String
+
+        .Link
+        Keiner
+    #>
+
     param(  
-        $PostgreIP=$(throw "IP or FQDN is required."), 
+        [parameter(Mandatory=$true)] $PostgreIP, 
         $PostgrePort="5432", 
-        $Username=$(throw "Username is required."), 
-        $Password=$(throw "Password is required."), 
-        $Database=$(throw "Database is required.")
+        [parameter(Mandatory=$true)] $Username, 
+        [parameter(Mandatory=$true)] $Password, 
+        [parameter(Mandatory=$true)] $Database
         )
 
     # Connection String für PostgresSQL zusammen setzen
@@ -29,9 +46,26 @@ function CreatePostgresConnectionString {
 # Connecting via OBDC zu PostgreSQL
 function ConnectODBCData{
 
+    <#
+        .SYNOPSIS
+        Connection String fuer PostgresSQL zusammen setzen
+
+        .DESCRIPTION
+        Connection String fuer PostgresSQL zusammen setzen
+
+        .EXAMPLE
+        PS> -ConectionString $PostgreSQLConnection -SqlQuery $SqlQuery
+        
+        .OUTPUTS
+        Tabellen.
+
+        .Link
+        Keiner
+    #>
+
     param(  
-        [string]$ConectionString=$(throw "ConectionString is required."),
-        [string]$SqlQuery=$(throw "SQL Comannd is required.")
+        [parameter(Mandatory=$true)][string] $ConectionString,
+        [parameter(Mandatory=$true)][string] $SqlQuery
     )
 
     # Erstellen der Objekte
@@ -64,9 +98,26 @@ function ConnectODBCData{
 # Get Postgres Data Get function
 function GetProstgrsSQLData{
 
+    <#
+        .SYNOPSIS
+        Get Postgres Data Get function
+
+        .DESCRIPTION
+        Get Postgres Data Get function
+
+        .EXAMPLE
+        PS> ConnectODBCData -PostgreSQLConnection "Driver={PostgreSQL Unicode(x64)};Server=192.168.10.246;Port=5432;Database=nv_alarm;Uid=username;Pwd=password;" -SqlQuery "select * from public.alarm_data ORDER BY id DESC Limit 30000"
+        
+        .OUTPUTS
+        Tabellen.
+
+        .Link
+        Keiner
+    #>
+
     param(  
-        $PostgreSQLConnection = $(throw "PostgresSQL String is required."),
-        $SqlQuery = $(throw "SQL Comannd is required.")
+        [parameter(Mandatory=$true)] $PostgreSQLConnection,
+        [parameter(Mandatory=$true)] $SqlQuery
     )
 
     # Verbinden der Datenbank und Holen der Daten

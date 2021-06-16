@@ -3,21 +3,58 @@
 #/ Semester Arbeit - Christian Escolano / Robert Mulder                                 /
 #/--------------------------------------------------------------------------------------/
 
+# inden des Alarms der am wenigsten Zeitverbraucht hat, bis er alarmiert hat.
 function GetTabelleAlarmStat {
+
+    <#
+        .SYNOPSIS
+        Exportieren alle Daten in der Tabelle AlarmStat geordnet nach PK
+
+        .DESCRIPTION
+        Exportieren alle Daten in der Tabelle AlarmStat geordnet nach PK
+        
+        .EXAMPLE
+        PS> GetTabelleAlarmStat -MSSQLConnection "Server=192.168.10.144,1433;Database=Alarm;;Integrated Security=false;Uid=username;Pwd=password;" -pfadExportCSV "C:\Export-CSV"
+        
+        .OUTPUTS
+        CSV File.
+
+        .Link
+        Keiner
+    #>
+
     param(
-        $MSSQLConnectionString = $(throw "IP or FQDN is required."),
-        $pfadExportCSV= $(throw "Path is requierd.")
+        [parameter(Mandatory=$true)] $MSSQLConnectionString,
+        [parameter(Mandatory=$true)] $pfadExportCSV
     )
     
-    #  Finden des Alarms der am wenigsten Zeitverbraucht hat, bis er alarmiert hat.
+    #  Exportieren alle Daten in der Tabelle AlarmStat geordnet nach PK
     $exp = GetMSSQLData -MSSQLConnection $MSSQLConnectionString -SqlQuery "select * from AlarmStat order by AlarmStatID"
     ExportTabellenToCSV  -tabelle $exp -pfadExportCSV $pfadExportCSV -FileName "AlarmStat.csv"
 }
 
 function GetTabelleBenutzer {
+
+    <#
+        .SYNOPSIS
+        Exportieren alle Daten in der Tabelle Benutzer geordnet nach PK
+
+        .DESCRIPTION
+        Exportieren alle Daten in der Tabelle Benutzer geordnet nach PK
+        
+        .EXAMPLE
+        PS> GetTabelleBenutzer -MSSQLConnection "Server=192.168.10.144,1433;Database=Alarm;;Integrated Security=false;Uid=username;Pwd=password;" -pfadExportCSV "C:\Export-CSV"
+        
+        .OUTPUTS
+        CSV File.
+
+        .Link
+        Keiner
+    #>
+
     param(
-        $MSSQLConnectionString = $(throw "IP or FQDN is required."),
-        $pfadExportCSV= $(throw "Path is requierd.")
+        [parameter(Mandatory=$true)] $MSSQLConnectionString,
+        [parameter(Mandatory=$true)] $pfadExportCSV
     )
     
     #  Finden des Alarms der am wenigsten Zeitverbraucht hat, bis er alarmiert hat.
@@ -27,9 +64,27 @@ function GetTabelleBenutzer {
 
 
 function GetTabelleBenutzerGruppe {
+
+    <#
+        .SYNOPSIS
+        Exportieren alle Daten in der Tabelle BenutzerGruppe geordnet nach PK
+
+        .DESCRIPTION
+        Exportieren alle Daten in der Tabelle BenutzerGruppe geordnet nach PK
+        
+        .EXAMPLE
+        PS> GetTabelleBenutzerGruppe -MSSQLConnection "Server=192.168.10.144,1433;Database=Alarm;;Integrated Security=false;Uid=username;Pwd=password;" -pfadExportCSV "C:\Export-CSV"
+        
+        .OUTPUTS
+        CSV File.
+
+        .Link
+        Keiner
+    #>
+
     param(
-        $MSSQLConnectionString = $(throw "IP or FQDN is required."),
-        $pfadExportCSV= $(throw "Path is requierd.")
+        [parameter(Mandatory=$true)] $MSSQLConnectionString,
+        [parameter(Mandatory=$true)] $pfadExportCSV
     )
     
     #  Finden des Alarms der am wenigsten Zeitverbraucht hat, bis er alarmiert hat.
@@ -39,9 +94,27 @@ function GetTabelleBenutzerGruppe {
 
 
 function GetTabelleGruppe {
+
+    <#
+        .SYNOPSIS
+        Exportieren alle Daten in der Tabelle Gruppe geordnet nach PK
+
+        .DESCRIPTION
+        Exportieren alle Daten in der Tabelle Gruppe geordnet nach PK
+        
+        .EXAMPLE
+        PS> GetTabelleGruppe -MSSQLConnection "Server=192.168.10.144,1433;Database=Alarm;;Integrated Security=false;Uid=username;Pwd=password;" -pfadExportCSV "C:\Export-CSV"
+        
+        .OUTPUTS
+        CSV File.
+
+        .Link
+        Keiner
+    #>
+
     param(
-        $MSSQLConnectionString = $(throw "IP or FQDN is required."),
-        $pfadExportCSV= $(throw "Path is requierd.")
+        [parameter(Mandatory=$true)] $MSSQLConnectionString,
+        [parameter(Mandatory=$true)] $pfadExportCSV
     )
     
     #  Finden des Alarms der am wenigsten Zeitverbraucht hat, bis er alarmiert hat.
@@ -51,9 +124,27 @@ function GetTabelleGruppe {
 
 
 function GetTabelleMedium {
+
+    <#
+        .SYNOPSIS
+        Exportieren alle Daten in der Tabelle Medium geordnet nach PK
+
+        .DESCRIPTION
+        Exportieren alle Daten in der Tabelle Medium geordnet nach PK
+        
+        .EXAMPLE
+        PS> GetTabelleMedium -MSSQLConnection "Server=192.168.10.144,1433;Database=Alarm;;Integrated Security=false;Uid=username;Pwd=password;" -pfadExportCSV "C:\Export-CSV"
+        
+        .OUTPUTS
+        CSV File.
+
+        .Link
+        Keiner
+    #>
+
     param(
-        $MSSQLConnectionString = $(throw "IP or FQDN is required."),
-        $pfadExportCSV= $(throw "Path is requierd.")
+        [parameter(Mandatory=$true)] $MSSQLConnectionString,
+        [parameter(Mandatory=$true)] $pfadExportCSV
     )
     
     #  Finden des Alarms der am wenigsten Zeitverbraucht hat, bis er alarmiert hat.
@@ -62,9 +153,27 @@ function GetTabelleMedium {
 }
 
 function GetTabelleMediumBenutzer {
+
+    <#
+        .SYNOPSIS
+        Exportieren alle Daten in der Tabelle MediumBenutzer geordnet nach PK
+
+        .DESCRIPTION
+        Exportieren alle Daten in der Tabelle MediumBenutzer geordnet nach PK
+        
+        .EXAMPLE
+        PS> GetTabelleMediumBenutzer -MSSQLConnection "Server=192.168.10.144,1433;Database=Alarm;;Integrated Security=false;Uid=username;Pwd=password;" -pfadExportCSV "C:\Export-CSV"
+        
+        .OUTPUTS
+        CSV File.
+
+        .Link
+        Keiner
+    #>
+
     param(
-        $MSSQLConnectionString = $(throw "IP or FQDN is required."),
-        $pfadExportCSV= $(throw "Path is requierd.")
+        [parameter(Mandatory=$true)] $MSSQLConnectionString,
+        [parameter(Mandatory=$true)] $pfadExportCSV
     )
     
     #  Finden des Alarms der am wenigsten Zeitverbraucht hat, bis er alarmiert hat.
@@ -73,9 +182,27 @@ function GetTabelleMediumBenutzer {
 }
 
 function ExportTabellen {
+
+    <#
+        .SYNOPSIS
+        Exportieren alle Daten in den Tabelle geordnet nach PK
+
+        .DESCRIPTION
+        Exportieren alle Daten in den Tabelle geordnet nach PK
+        
+        .EXAMPLE
+        PS> ExportTabellen -MSSQLConnection "Server=192.168.10.144,1433;Database=Alarm;;Integrated Security=false;Uid=username;Pwd=password;" -pfadExportCSV "C:\Export-CSV"
+        
+        .OUTPUTS
+        CSV File.
+
+        .Link
+        Keiner
+    #>
+
     param (
-		$MSSQLConnectionString = $(throw "IP or FQDN is required."),
-        $pfadExportCSV= $(throw "Path is requierd.")
+		[parameter(Mandatory=$true)] $MSSQLConnectionString,
+        [parameter(Mandatory=$true)] $pfadExportCSV
     )
 
 	# Exportieren der Daten in der Tabelle AlarmStat in ein CSV

@@ -3,12 +3,27 @@
 #/ Semester Arbeit - Christian Escolano / Robert Mulder                                 /
 #/--------------------------------------------------------------------------------------/
 
+# Abrufen der Gespeicherten Prozedur insert Media
 function SetMSSQLMedium {
 
+    <#
+        .SYNOPSIS
+        Abrufen der Gespeicherten Prozedur insert Media
+
+        .DESCRIPTION
+        Abrufen der Gespeicherten Prozedur insert Media
+        
+        .EXAMPLE
+        PS> SetMSSQLMedium -MSSQLConnection "Server=192.168.10.144,1433;Database=Alarm;;Integrated Security=false;Uid=username;Pwd=password;" -CSVPersonen "Person.csv" -Logspfad "C:\Export-CSV"
+
+        .Link
+        Keiner
+    #>
+
     param(  
-        $MSSQLConnection = $(throw "IP or FQDN is required."), 
-        $CSVPersonen = $(throw "No list submited"),
-        $Logspfad = $(throw "No Path submited")
+        [parameter(Mandatory=$true)] $MSSQLConnection,
+        [parameter(Mandatory=$true)] $CSVPersonen,
+        [parameter(Mandatory=$true)] $Logspfad
     )
     
     $Logspfad
@@ -20,12 +35,27 @@ function SetMSSQLMedium {
     }
 }
 
+# Abrufen der Gespeicherten Prozedur insert Gruppen
 function SetMSSQLGrupen {
 
+    <#
+        .SYNOPSIS
+        Abrufen der Gespeicherten Prozedur insert Gruppe
+
+        .DESCRIPTION
+        Abrufen der Gespeicherten Prozedur insert Gruppe
+        
+        .EXAMPLE
+        PS> SetMSSQLGrupen -MSSQLConnection "Server=192.168.10.144,1433;Database=Alarm;;Integrated Security=false;Uid=username;Pwd=password;" -CSVGrupen "Gruppen.csv" -Logspfad "C:\Export-CSV"
+
+        .Link
+        Keiner
+    #>
+
     param(  
-        $MSSQLConnection = $(throw "IP or FQDN is required."), 
-        $CSVGrupen = $(throw "No list submited"),
-        $Logspfad = $(throw "No Path submited")
+        [parameter(Mandatory=$true)] $MSSQLConnection,
+        [parameter(Mandatory=$true)] $CSVGrupen,
+        [parameter(Mandatory=$true)] $Logspfad
     )
     
     foreach ($Grupen in $CSVGrupen){
@@ -37,10 +67,24 @@ function SetMSSQLGrupen {
 
 function SetMSSQLPersonen {
 
+    <#
+        .SYNOPSIS
+        Abrufen der Gespeicherten Prozedur insert Benutzer
+
+        .DESCRIPTION
+        Abrufen der Gespeicherten Prozedur insert Benutzer
+        
+        .EXAMPLE
+        PS> SetMSSQLPersonen -MSSQLConnection "Server=192.168.10.144,1433;Database=Alarm;;Integrated Security=false;Uid=username;Pwd=password;" -CSVPersonen "Person.csv" -Logspfad "C:\Export-CSV"
+
+        .Link
+        Keiner
+    #>
+
     param(  
-        $MSSQLConnection = $(throw "IP or FQDN is required."), 
-        $CSVPersonen = $(throw "No list submited"),
-        $Logspfad = $(throw "No Path submited")
+        [parameter(Mandatory=$true)] $MSSQLConnection,
+        [parameter(Mandatory=$true)] $CSVPersonen,
+        [parameter(Mandatory=$true)] $Logspfad
     )
 
     foreach ($pers in $CSVPersonen ){
@@ -52,10 +96,24 @@ function SetMSSQLPersonen {
 
 function SetMSSQLAlarmStat {
 
+    <#
+        .SYNOPSIS
+        Abrufen der Gespeicherten Prozedur insert Alarmstat
+
+        .DESCRIPTION
+        Abrufen der Gespeicherten Prozedur insert Alarmstat
+        
+        .EXAMPLE
+        PS> SetMSSQLAlarmStat -MSSQLConnection "Server=192.168.10.144,1433;Database=Alarm;;Integrated Security=false;Uid=username;Pwd=password;" -PostgresData "PostgreTabellen" -Logspfad "C:\Export-CSV"
+
+        .Link
+        Keiner
+    #>
+
     param(  
-        $MSSQLConnection = $(throw "IP or FQDN is required."), 
-        $PostgresData = $(throw "No list submited"),
-        $Logspfad = $(throw "No Path submited")
+        [parameter(Mandatory=$true)] $MSSQLConnection,
+        [parameter(Mandatory=$true)] $PostgresData,
+        [parameter(Mandatory=$true)] $Logspfad
     )
     
     foreach ($PData in $PostgresData){
@@ -84,11 +142,25 @@ function SetMSSQLAlarmStat {
 
 function SetMSSQLGrupenPersonen {
 
+    <#
+        .SYNOPSIS
+        Abrufen der Gespeicherten Prozedur insert Alarmstat
+
+        .DESCRIPTION
+        Abrufen der Gespeicherten Prozedur insert Alarmstat
+        
+        .EXAMPLE
+        PS> SetMSSQLGrupenPersonen -MSSQLConnection "Server=192.168.10.144,1433;Database=Alarm;;Integrated Security=false;Uid=username;Pwd=password;" -CSVPersonen "Personen.csv" -CSVGrupenPersonen "GruppenPersonen.csv" -Logspfad "C:\Export-CSV"
+
+        .Link
+        Keiner
+    #>
+
     param(  
-        $MSSQLConnection = $(throw "IP or FQDN is required."), 
-        $CSVGrupenPersonen = $(throw "No list submited"),
-        $CSVGrupen = $(throw "No list submited"),
-        $Logspfad = $(throw "No Path submited")
+        [parameter(Mandatory=$true)] $MSSQLConnection,
+        [parameter(Mandatory=$true)] $CSVGrupenPersonen,
+        [parameter(Mandatory=$true)] $CSVGrupen,
+        [parameter(Mandatory=$true)] $Logspfad
     )
 
     foreach ($Grpers in $CSVGrupenPersonen){

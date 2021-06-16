@@ -6,10 +6,29 @@
 # Schreiben der Logs und Errormeldungen
 function WriteLog {
 
+    <#
+        .SYNOPSIS
+        Schreiben der Logs und Errormeldungen
+
+        .DESCRIPTION
+        Schreiben der Logs und Errormeldungen
+        
+        .EXAMPLE
+        > Error
+        PS> WriteLog -Output "Error Msg" -errors $true -Logspfad "C:\Logs" 
+
+        .EXAMPLE
+        > Succes
+        PS> WriteLog -Output "Succes Msg" -errors $false -Logspfad "C:\Logs" 
+        
+        .Link
+        Keiner
+    #>
+
     param(  
-        $Output = $(throw "Now output defined"), 
-        $errors = $false,
-        $Logspfad = $(throw "Now outputfile defined")
+        [parameter(Mandatory=$true)] $Output, 
+        [parameter(Mandatory=$true)] $errors,
+        [parameter(Mandatory=$true)] $Logspfad
     )
     
     if ($errors){
@@ -34,8 +53,22 @@ function WriteLog {
 # Erstellen der Logdatei
 function CreateLog {
 
+    <#
+        .SYNOPSIS
+        Erstellen der Logdateien
+
+        .DESCRIPTION
+        Erstellen der Logdateien
+        
+        .EXAMPLE
+        PS> CreateLog -Logspfad "C:\Logs" 
+
+        .Link
+        Keiner
+    #>
+
     param(  
-        $Logspfad = $(throw "Now outputfile defined")
+        [parameter(Mandatory=$true)] $Logspfad
     )
     
     # Erstellen der Logdateien
@@ -46,8 +79,22 @@ function CreateLog {
 # Erstellen der Ordnerstruktur
 function CreateOrdner {
 
+    <#
+        .SYNOPSIS
+        Erstellen der Ordner
+
+        .DESCRIPTION
+        Erstellen der Ordner
+        
+        .EXAMPLE
+        PS> CreateOrdner -Logspfad "C:\Logs" 
+
+        .Link
+        Keiner
+    #>
+
     param(  
-        $stampfad = $(throw "Now outputfile defined")
+        [parameter(Mandatory=$true)] $stampfad
     )
     
     # Erstellen der Logdateien
@@ -58,8 +105,26 @@ function CreateOrdner {
 
 # Convert Tabele zu PsObject
 function DataTableToPSObject {
+
+    <#
+        .SYNOPSIS
+        Convert Tabele zu PsObject
+
+        .DESCRIPTION
+        Convert Tabele zu PsObject
+        
+        .EXAMPLE
+        PS> DataTableToPSObject -DataTable "Tabellen" 
+
+        .OUTPUTS
+        PSObejects
+        
+        .Link
+        Keiner
+    #>
+
     param(
-        $DataTable = $(throw "tabelle is required.")
+        [parameter(Mandatory=$true)] $DataTable
     )
 
     # Löschen der ersten Zeile
@@ -72,10 +137,27 @@ function DataTableToPSObject {
 # Exportieren der Tabellen in HTML Files
 function ExportTabelleToHTML {
 
+    <#
+        .SYNOPSIS
+        Exportieren der Tabellen in HTML Files
+
+        .DESCRIPTION
+        Exportieren der Tabellen in HTML Files
+        
+        .EXAMPLE
+        PS> ExportTabelleToHTML -Title "Am wenigsten verwendeter Alarm" -tabelle "Tabellen" -pfadExportHTML "C:\Export-HTML"
+
+        .OUTPUTS
+        HTML
+        
+        .Link
+        Keiner
+    #>
+
     param(  
-        $tabelle = $(throw "tabelle is required."), 
-        $pfadExportHTML= $(throw "Path is requierd."),
-        $Title = $(throw "No Title.")
+        [parameter(Mandatory=$true)] $tabelle, 
+        [parameter(Mandatory=$true)] $pfadExportHTML,
+        [parameter(Mandatory=$true)] $Title
     )
     try {
          
@@ -102,10 +184,27 @@ function ExportTabelleToHTML {
 # Exportieren der Tabellen
 function ExportTabellenToCSV {
 
+    <#
+        .SYNOPSIS
+        Exportieren der Tabellen in HTML Files
+
+        .DESCRIPTION
+        Exportieren der Tabellen in HTML Files
+        
+        .EXAMPLE
+        PS> ExportTabellenToCSV -tabelle "Tabellen" -pfadExportCSV "C:\Export-CSV" -FileName "MediumBenutzer.csv" 
+
+        .OUTPUTS
+        CSV
+        
+        .Link
+        Keiner
+    #>
+
     param(  
-        $tabelle = $(throw "tabelle is required."), 
-        $pfadExportCSV= $(throw "Path is requierd."),
-        $FileName = $(throw "No FileName.")
+        [parameter(Mandatory=$true)] $tabelle, 
+        [parameter(Mandatory=$true)] $pfadExportCSV,
+        [parameter(Mandatory=$true)] $FileName
     )
 
     try {

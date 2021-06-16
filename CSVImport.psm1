@@ -6,15 +6,32 @@
 # Einlesen CSV Personen Daten und Formatieren für die Weiter Vearbeitung
 function GetImportFormatiertPersonen {
 
+        <#
+        .SYNOPSIS
+        Einlesen CSV Personen Daten und Formatieren für die Weiter Vearbeitung
+
+        .DESCRIPTION
+        Einlesen CSV Personen Daten und Formatieren für die Weiter Vearbeitung
+        
+        .EXAMPLE
+        PS> GetImportFormatiertPersonen -Pfad "C:\nvpers-20210330.csv"
+
+        .Outputs
+        Personen Liste Formatiert
+
+        .Link
+        Keiner
+    #>
+
     param (
-        $Pfad = $(throw "Pfad is Missing.")
+        [parameter(Mandatory=$true)] $Pfad
     )
     
     # Einlesen der CSV
-    $GrupenListe = Import-Csv -Delimiter ";" -LiteralPath $Pfad
+    $PersonListe = Import-Csv -Delimiter ";" -LiteralPath $Pfad
 
     # Jedes Element in einer Liste abfüllen
-    $GrupenListeFormatiert = foreach ($aa in $GrupenListe)  {
+    $PersonenisteFormatiert = foreach ($aa in $PersonListe)  {
 
         # Erstellen der Liste
         New-Object -TypeName PSObject -Property @{
@@ -26,14 +43,31 @@ function GetImportFormatiertPersonen {
     }
 
     # Ruckgabe der Liste Frormatiert
-    return $GrupenListeFormatiert
+    return $PersonenisteFormatiert
 }
 
 # Einlesen CSV Gruppen Daten und Formatieren für die Weiter Vearbeitung
 function GetImportFormatiertGruppen {
 
+    <#
+        .SYNOPSIS
+        Einlesen CSV Gruppen Daten und Formatieren für die Weiter Vearbeitung
+
+        .DESCRIPTION
+        Einlesen CSV Gruppen Daten und Formatieren für die Weiter Vearbeitung
+        
+        .EXAMPLE
+        PS> GetImportFormatiertGruppen -Pfad "C:\nvpgruppen-20210330.csv"
+
+        .Outputs
+        Grupen Liste Formatiert
+
+        .Link
+        Keiner
+    #>
+
     param (
-        $Pfad = $(throw "Pfad is Missing.")
+        [parameter(Mandatory=$true)] $Pfad
     )
     
     # Einlesen der CSV
@@ -46,9 +80,26 @@ function GetImportFormatiertGruppen {
 # Einlesen CSV Personen Gruppen Zuweisung Daten und Formatieren für die Weiter Vearbeitung
 function GetImportFormatiertPersonenGruppen {
 
+    <#
+        .SYNOPSIS
+        Einlesen CSV Personen Gruppen Zuweisung Daten und Formatieren für die Weiter Vearbeitung
+
+        .DESCRIPTION
+        Einlesen CSV Personen Gruppen Zuweisung Daten und Formatieren für die Weiter Vearbeitung
+        
+        .EXAMPLE
+        PS> GetImportFormatiertGruppen -Pfad "C:\nvpersGrupps-20210330.csv"
+
+        .Outputs
+        Grupen Personen Liste Formatiert
+
+        .Link
+        Keiner
+    #>
+
     param (
-        $Pfad = $(throw "Pfad is Missing."),
-        $GrupenListe = $(throw "Liste is Missing.")
+        [parameter(Mandatory=$true)] $Pfad,
+        [parameter(Mandatory=$true)] $GrupenListe
     )
     
     # Importieren der Personen Gruppen Zuweisungen, Skipen info linien, Als CSV Convertieren
