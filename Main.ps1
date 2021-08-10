@@ -94,7 +94,7 @@ $PostgresData = GetProstgrsSQLData -PostgreSQLConnection $PostgresConnectionStri
 #---------------------------------------------------------- Schreiben von Daten ----------------------------------------------------------------------
 
 # Erstellen des SQL USers
-$status = CreateSQLUser -MSSQLConnection $MSSQLConnectionString -User $CreateSQLusername -password $CreateSQLpassword -Datenbank $DatenbankSQL
+$status = CreateSQLUser -MSSQLConnection $MSSQLConnectionString -User $CreateSQLusername -password $CreateSQLpassword -Datenbank $DatenbankSQL -Logspfad $Logspfad
 
 # Schreiben aller MedienTyoen in die Datenbank 
 $status = SetMSSQLMedium -MSSQLConnection $MSSQLConnectionString -CSVPersonen $CSVPersonen -Logspfad $Logspfad

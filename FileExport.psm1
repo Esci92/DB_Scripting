@@ -35,19 +35,19 @@ function WriteLog {
 
         # Generieren Spalte 1
         $Logsfile = ($Logspfad + "\ErrorLogs.csv")
-        "Error;" | Out-File -FilePath $Logsfile -Append -NoNewline
+        "Error;" | Out-File -FilePath $Logsfile -Append -NoNewline -Encoding utf8
     } 
     else {
 
         # Generieren Spalte 1
         $Logsfile = ($Logspfad + "\Logs.csv") 
-        "Succes;" | Out-File -FilePath $Logsfile -Append -NoNewline
+        "Succes;" | Out-File -FilePath $Logsfile -Append -NoNewline -Encoding utf8
     }
 
     ## Generieren 1 Zeilen im CSV Format
-    Get-Date | Out-File -FilePath $Logsfile -Append -NoNewline
-    ";" | Out-File -FilePath $Logsfile -Append -NoNewline
-    $Output | Out-File -FilePath $Logsfile -Append
+    Get-Date | Out-File -FilePath $Logsfile -Append -NoNewline -Encoding utf8
+    ";" | Out-File -FilePath $Logsfile -Append -NoNewline -Encoding utf8
+    $Output | Out-File -FilePath $Logsfile -Append -Encoding utf8
 }
 
 # Erstellen der Logdatei
@@ -72,8 +72,8 @@ function CreateLog {
     )
     
     # Erstellen der Logdateien
-    Out-File -FilePath ($Logspfad + "\ErrorLogs.csv")
-    Out-File -FilePath ($Logspfad + "\Logs.csv")
+    Out-File -FilePath ($Logspfad + "\ErrorLogs.csv") -Encoding utf8
+    Out-File -FilePath ($Logspfad + "\Logs.csv") -Encoding utf8
 }
 
 # Erstellen der Ordnerstruktur

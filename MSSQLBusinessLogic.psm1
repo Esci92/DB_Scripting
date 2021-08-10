@@ -31,7 +31,7 @@ function SetMSSQLMedium {
     foreach ($medium in ($CSVPersonen.Medium | Select-Object -Unique)){
 
         # Abrufen der Gespeicherten Prozedur
-        SetMSSQLData -MSSQLConnection $MSSQLConnectionString -SqlQuery ("exec uspMediumInsert '"+ $medium + "'") -Logspfad $Logspfad
+        SetMSSQLData -MSSQLConnection $MSSQLConnection -SqlQuery ("exec uspMediumInsert '"+ $medium + "'") -Logspfad $Logspfad
     }
 }
 
@@ -61,7 +61,7 @@ function SetMSSQLGrupen {
     foreach ($Grupen in $CSVGrupen){
 
         # Abrufen der Gespeicherten Prozedur
-        SetMSSQLData -MSSQLConnection $MSSQLConnectionString -SqlQuery ("exec uspGruppeUpdateInsert @GName = '" + $Grupen.Gruppenname + "', @GNumber = " + $Grupen.Gruppennummer) -Logspfad $Logspfad
+        SetMSSQLData -MSSQLConnection $MSSQLConnection -SqlQuery ("exec uspGruppeUpdateInsert @GName = '" + $Grupen.Gruppenname + "', @GNumber = " + $Grupen.Gruppennummer) -Logspfad $Logspfad
     }
 }
 
@@ -90,7 +90,7 @@ function SetMSSQLPersonen {
     foreach ($pers in $CSVPersonen ){
             
         # Senden der Daten zum SQL
-        SetMSSQLData -MSSQLConnection $MSSQLConnectionString -SqlQuery ("exec uspBenutzerUpdateInsert @Vorname = '"+ $pers.Vorname  + "',@Nachname = '" + $pers.Nachname + "',@Kontakt = '" + $pers.Number + "',@Medium = '" + $pers.Medium + "'") -Logspfad $Logspfad
+        SetMSSQLData -MSSQLConnection $MSSQLConnection -SqlQuery ("exec uspBenutzerUpdateInsert @Vorname = '"+ $pers.Vorname  + "',@Nachname = '" + $pers.Nachname + "',@Kontakt = '" + $pers.Number + "',@Medium = '" + $pers.Medium + "'") -Logspfad $Logspfad
     }
 }
 
@@ -134,7 +134,7 @@ function SetMSSQLAlarmStat {
             $SQLExec += ",@GruppeID = " + $PData.grpnumber 
             
             # Abrufen der Gespeicherten Prozedur        
-            SetMSSQLData -MSSQLConnection $MSSQLConnectionString -SqlQuery $SQLExec -Logspfad $Logspfad
+            SetMSSQLData -MSSQLConnection $MSSQLConnection -SqlQuery $SQLExec -Logspfad $Logspfad
     
         }
     }
@@ -171,7 +171,7 @@ function SetMSSQLGrupenPersonen {
             if ($Grpers.($Gr) -gt 0){
 
                 # Abrufen der Gespeicherten Prozedur
-                SetMSSQLData -MSSQLConnection $MSSQLConnectionString -SqlQuery ("uspBenutzerGruppeInsert @GNumber = " + $Gr + ", @Kontakt = '" + $Grpers.H8 + "', @Medium = '" + $Grpers.H9 + "'") -Logspfad $Logspfad
+                SetMSSQLData -MSSQLConnection $MSSQLConnection -SqlQuery ("uspBenutzerGruppeInsert @GNumber = " + $Gr + ", @Kontakt = '" + $Grpers.H8 + "', @Medium = '" + $Grpers.H9 + "'") -Logspfad $Logspfad
             }
         }
     }

@@ -181,6 +181,10 @@ function SetMSSQLData {
         [parameter(Mandatory=$true)] $Logspfad
     )
     
+    $MSSQLConnection
+    $SqlQuery
+    $Logspfad
+
     try {
         # Senden der Daten zum SQL
         MSSQLWriteData -SQLConnection $MSSQLConnection -SqlQuery $SqlQuery
@@ -289,16 +293,23 @@ function CreateSQLUser {
     #>  
 
     param (
-        [parameter(Mandatory=$true)] $MSSQLConnection,
+        [parameter(Mandatory=$true)] $MSSQLConnectionString,
         [parameter(Mandatory=$true)] $user,
         [parameter(Mandatory=$true)] $password,
-        [parameter(Mandatory=$true)] $Datenbank
+        [parameter(Mandatory=$true)] $Datenbank,
+        [parameter(Mandatory=$true)] $Logspfad
     )
+
+    $MSSQLConnection
+    $SqlQuery
+    $Logspfad
+    
 
     # Aufbauen des Strings
     $sql = "CREATE LOGIN " + $user
     $sql += " WITH PASSWORD = '" + $password + "'"
-    $sql += ", DEFAULT_DATABASE = Alarm, CHECK_EXPIRATION = ON;"  
+    $sql += ", DEFAULT_DATABASE = "
+    $sql += $Datenbank + ", CHECK_EXPIRATION = ON;"  
     $sql += "CREATE USER " + $user 
     $sql += " FOR LOGIN " + $user +";"
     $sql += " GRANT SELECT to " + $user 
